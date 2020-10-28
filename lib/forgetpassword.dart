@@ -1,0 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+class ForgetPassword extends StatefulWidget {
+  @override
+  _ForgetPasswordState createState() => _ForgetPasswordState();
+}
+
+class _ForgetPasswordState extends State<ForgetPassword> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}

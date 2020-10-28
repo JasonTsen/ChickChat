@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "60400910331",
+    "firebase_url": "https://chickchat-5486f.firebaseio.com",
+    "project_id": "chickchat-5486f",
+    "storage_bucket": "chickchat-5486f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:60400910331:android:c21d0bd47783a966cc555e",
+        "android_client_info": {
+          "package_name": "com.example.chickchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "60400910331-3ikhcctqe7dsfsvpuh9dllvkiem71djk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwy1EgRiY8j11RPZPtBJMNm3gG5BR8kN0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "60400910331-3ikhcctqe7dsfsvpuh9dllvkiem71djk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
