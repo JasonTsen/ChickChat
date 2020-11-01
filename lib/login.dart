@@ -1,6 +1,10 @@
-import 'package:chickchat/StaffChatPage.dart';
+
+import 'package:chickchat/customBtn.dart';
+import 'package:chickchat/customInput.dart';
+import 'package:chickchat/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'design.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -8,63 +12,165 @@ class LoginPage extends StatefulWidget{
 }
 
 class _LoginPageState extends State<LoginPage>{
-
-  Future<void> _login() async{
-    try{
-      UserCredential userCredential = await FirebaseAuth
-          .instance
-          .signInWithEmailAndPassword(email: _email, password: _password);
-      print("User: $userCredential");
-    } on FirebaseAuthException catch(e) {
-      print("Error: $e");
-    }catch(e){
-      print("Error: $e");
-    }
-  }
+  bool _loginLoad = false;
   String _email;
   String _password;
+  FocusNode _passwordFocus;
+  Future<String> _login() async{
+    try{
+      await FirebaseAuth
+          .instance
+          .signInWithEmailAndPassword(email: _email, password: _password);
+      return null;
+    } on FirebaseAuthException catch(e) {
+      if(e.code == 'weak-password'){
+        return 'The password provided is too weak';
+      }else if(e.code == 'email-already-in-use'){
+        return 'The account already exists for that email.';
+      }
+      return e.message;
+    }catch(e){
+      return e.toString();
+    }
+  }
+  Future<void> _alertDialog(String error) async{
+    return showDialog(
+        context:  context,
+        barrierDismissible: false,
+        builder: (context){
+          return AlertDialog(
+              title: Text("Error"),
+              content: Container(
+                child: Text(error),
+              ),
+              actions:[
+                FlatButton(
+                  child: Text("Close"),
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                )
+              ]
+          );
+        }
+    );
+  }
+  void _submitLog() async{
+    setState(() {
+      _loginLoad = true;
+    });
+    String _validateAccount = await _login();
+    if(_validateAccount != null){
+      _alertDialog(_validateAccount);
+      setState(() {
+        _loginLoad = false;
+      });
+    }
+  }
+  @override
+  void initState(){
+
+    super.initState();
+    _passwordFocus = FocusNode();
+
+  }
+  @override
+  void dispose(){
+    _passwordFocus.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title:Text('Login'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(60.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              onChanged: (value){
-                _email = value;
-              },
-              decoration: InputDecoration(
-                hintText: "Enter Email..."
-              ),
-            ),
-            TextField(
-              onChanged: (value){
-                _password = value;
-              },
-              decoration: InputDecoration(
-                  hintText: "Enter Password..."
-              ),
-            ),
+    return Scaffold(resizeToAvoidBottomPadding: false,
 
-                MaterialButton(
-                  onPressed: _login,
-                  child: Text("Login"),
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    top: 24.0,
+                  ),
                 ),
-                MaterialButton(
-                  onPressed: (){},
-                  child: Text("Forget Password"),
+                Column(
+                  children: [
+
+                    Container(
+                      padding: EdgeInsets.only(
+                      top: 24.0,
+                ),
+                      child: Text(
+                        "ChickChat",
+                        textAlign: TextAlign.center,
+                        style: Design.boldHeading,
+                      ),
+                    ),
+                    CustomInput(
+                      onChanged: (value){
+                        _email = value;
+                      },
+                          hintText: "Enter Email...",
+                      textInputAction: TextInputAction.next,
+
+                    ),
+                    CustomInput(
+                      onChanged: (value){
+                        _password = value;
+                      },
+                        onSubmitted: (value){
+                          _submitLog();
+                        },
+                        focusNode: _passwordFocus,
+                        isPassField: true,
+                          hintText: "Enter Password..."
+                    ),
+                    CustomBtn(
+                      text: "Login",
+                      onPressed: () async{
+                        _submitLog();
+                      },
+                      outlineBtn: false,
+                      isLoad: _loginLoad,
+                    ),
+                  ],
+
+                ),
+                CustomBtn(
+                  text: "Forget Password",
+                  onPressed: (){
+                    print("Clicked the Forget Button");
+                  },
+                  outlineBtn: true,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: 16.0,
+                  ),
+                  child: CustomBtn(
+                    text: "Create New Account",
+                    onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterPage()
+                        ),
+                      );
+                    },
+                    outlineBtn: true,
+                  ),
                 ),
 
 
-
-          ],
+              ],
+            ),
+          ),
         ),
-      ),
-    );
+
+        ),
+      );
   }
 }

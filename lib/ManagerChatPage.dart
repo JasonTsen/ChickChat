@@ -1,19 +1,13 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class StaffChat extends StatefulWidget{
-  @override
-  _StaffChatState createState() => new _StaffChatState();
-}
-
-class _StaffChatState extends State<StaffChat>{
+class ManagerChat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Staff Home'),
+        title: Text('Manager Home'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -33,7 +27,8 @@ class _StaffChatState extends State<StaffChat>{
                     itemBuilder: (BuildContext context, int index) {
                       final user = docs[index].data();
                       return Text(user['name'] + "       " +user['role']);
-
+                      Image.network(user['userImg']
+                      );
 
                     },
                   );
