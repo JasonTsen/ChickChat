@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 import 'StaffChatPage.dart';
 const bool kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 void main() {
@@ -29,6 +30,8 @@ class MyApp extends StatelessWidget {
 }
 class LandingPage extends StatelessWidget{
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -46,11 +49,11 @@ class LandingPage extends StatelessWidget{
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               User _user = snapshot.data;
+
               if (snapshot.connectionState == ConnectionState.active){
                 print(snapshot);
                 if (_user!= null) {
                   return StreamBuilder<QuerySnapshot>(
-
                       stream:
                       FirebaseFirestore.instance.collection("Users")
                       .where('uid', isEqualTo: _user.uid).snapshots(),
@@ -65,8 +68,10 @@ class LandingPage extends StatelessWidget{
                           // ignore: unrelated_type_equality_checks
                           final docs = snapshot.data.docs;
                           final user = docs[0].data();
+
                             if (user['role'] == 'Manager') {
-                              return ManagerChat();
+                              return ManagerChat(currentUserId: _user.uid);
+
                             } else {
                               return StaffChat();
                             }
@@ -101,6 +106,5 @@ class LandingPage extends StatelessWidget{
       },
     );
   }
-
 }
 

@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'package:chickchat/design.dart';
+import 'package:chickchat/login.dart';
+import 'package:chickchat/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:toast/toast.dart';
 import 'customBtn.dart';
 import 'customInput.dart';
 class RegisterPage extends StatefulWidget {
@@ -15,7 +18,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterState extends State<RegisterPage> {
 
 
-  String _name, _email, _password, _userRole, _phone;
+  String _name, _email, _password, _userRole, _phone, _chattingWith;
   int selectedRad;
   File imageFile;
   String _uploadImgFile;
@@ -55,14 +58,14 @@ class _RegisterState extends State<RegisterPage> {
 
       _uploadImgFile = await taskSnapshot.ref.getDownloadURL();
 
-      _userSetup(_name, _email,_password, _phone, _userRole, _uploadImgFile);
+      _userSetup(_name, _email,_password, _phone, _userRole, _uploadImgFile, _chattingWith);
   }
-  Future<void> _userSetup(String userName, String email, String password, String phoneNo, String role, String userImg) async{
-    CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  Future<void> _userSetup(String userName, String email, String password, String phoneNo, String role, String userImg, String chattingWith) async{
     FirebaseAuth auth = FirebaseAuth.instance;
     String uid = auth.currentUser.uid.toString();
 
-    users.add({'uid': uid, 'name': userName, 'email': email, 'pass': password, 'phone': phoneNo, 'role': role, 'userImg': userImg});
+    FirebaseFirestore.instance.collection('Users').doc(auth.currentUser.uid)
+        .set({'uid': uid, 'name': userName, 'email': email, 'pass': password, 'phone': phoneNo, 'role': role, 'userImg': userImg, 'chattingWith' : chattingWith});
 
   }
   Future<String> _createUser() async{
@@ -87,7 +90,7 @@ class _RegisterState extends State<RegisterPage> {
       return e.toString();
     }
   }
-  void _submitReg() async{
+  _submitReg() async{
     setState(() {
       _registerLoad = true;
     });
@@ -98,7 +101,9 @@ class _RegisterState extends State<RegisterPage> {
         _registerLoad = false;
       });
     }else{
+      Toast.show("You have registered and login as " + _name +".", context,  duration: Toast.LENGTH_LONG);
       Navigator.pop(context);
+
     }
   }
   Future<void> _alertDialog(String error) async{
