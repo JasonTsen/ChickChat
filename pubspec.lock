@@ -190,7 +190,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.1"
-    version: "0.2.0"
   firebase_messaging:
     dependency: "direct main"
     description:
@@ -395,6 +394,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.5"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.24.1"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -444,14 +450,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.4"
-    version: "2.1.3"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.24.1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -499,13 +497,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0-nullsafety.1"
-  table_calendar:
-    dependency: "direct main"
-    description:
-      name: table_calendar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.3.0"
   synchronized:
     dependency: transitive
     description:
@@ -513,6 +504,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0+2"
+  table_calendar:
+    dependency: "direct main"
+    description:
+      name: table_calendar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.0"
   term_glyph:
     dependency: transitive
     description:
@@ -527,13 +525,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.19-nullsafety.2"
-  toast:
-    dependency: "direct main"
-    description:
-      name: toast
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.1.5"
   time_range:
     dependency: "direct main"
     description:
@@ -541,6 +532,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.5.0"
+  toast:
+    dependency: "direct main"
+    description:
+      name: toast
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
   typed_data:
     dependency: transitive
     description:
