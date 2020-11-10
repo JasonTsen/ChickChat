@@ -2,8 +2,10 @@
 import 'package:chickchat/customBtn.dart';
 import 'package:chickchat/customInput.dart';
 import 'package:chickchat/register.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 import 'design.dart';
 
 class LoginPage extends StatefulWidget{
@@ -12,15 +14,20 @@ class LoginPage extends StatefulWidget{
 }
 
 class _LoginPageState extends State<LoginPage>{
+  final FirebaseAuth auth = FirebaseAuth.instance;
   bool _loginLoad = false;
   String _email;
   String _password;
   FocusNode _passwordFocus;
+
   Future<String> _login() async{
+
+
     try{
       await FirebaseAuth
           .instance
           .signInWithEmailAndPassword(email: _email, password: _password);
+
       return null;
     } on FirebaseAuthException catch(e) {
       if(e.code == 'weak-password'){
@@ -66,6 +73,7 @@ class _LoginPageState extends State<LoginPage>{
         _loginLoad = false;
       });
     }
+    Toast.show("You have login as " + auth.currentUser.displayName + ".", context, duration: Toast.LENGTH_LONG);
   }
   @override
   void initState(){
@@ -131,6 +139,7 @@ class _LoginPageState extends State<LoginPage>{
                     CustomBtn(
                       text: "Login",
                       onPressed: () async{
+
                         _submitLog();
                       },
                       outlineBtn: false,
