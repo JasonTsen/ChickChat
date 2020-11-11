@@ -5,7 +5,6 @@ import 'package:chickchat/event_firestore_service.dart';
 
 class AddEventPage extends StatefulWidget {
   final EventModel note;
-
   const AddEventPage({Key key, this.note}) : super(key: key);
 
   @override
@@ -38,11 +37,12 @@ class _AddEventPageState extends State<AddEventPage> {
     processing = false;
   }
 
+  get isEditMode => widget.note != null;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.note != null ? "Edit Note" : "Add note"),
+        title: Text(widget.note != null ? "Edit Event" : "Create Event"),
       ),
       key: _key,
       body: Form(
@@ -115,7 +115,8 @@ class _AddEventPageState extends State<AddEventPage> {
                   fromTitle: Text('From', style: TextStyle(fontSize: 18,),),
                   toTitle: Text('To', style: TextStyle(fontSize: 18,),),
                   titlePadding: 20,
-                  activeTextStyle: TextStyle(fontWeight: FontWeight.bold),
+                  activeTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 22,),
+                  activeBackgroundColor: Colors.blue,
                   backgroundColor: Colors.transparent,
                   firstTime: TimeOfDay(hour: 8,minute: 00),
                   lastTime: TimeOfDay(hour: 20,minute: 00),
@@ -130,7 +131,7 @@ class _AddEventPageState extends State<AddEventPage> {
               SizedBox(height: 10.0),
               if(_timeRange!=null)
           Padding(padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Text('Your Event Time Range is: ${_timeRange.start.format(context)} - ${_timeRange.end.format(context)}',),
+          child: Text(' * Your Event Time Range is: ${_timeRange.start.format(context)} - ${_timeRange.end.format(context)}',style: TextStyle(color: Colors.lightGreen),),
           ),
 
 
@@ -153,9 +154,10 @@ class _AddEventPageState extends State<AddEventPage> {
                             "title": _title.text,
                             "description": _description.text,
                             "location": _location.text,
-                            "event_date": widget.note.eventDate,
-                            "event_timeStart":widget.note.eventTimeStart,
-                            "event_timeEnd":widget.note.eventTimeEnd,
+                            "event_date": _eventDate,
+                            //widget.note.eventDate
+                            "event_timeStart": _timeRange.start.format(context),
+                            "event_timeEnd": _timeRange.end.format(context) ,
                           });
                         }else{
                           // ignore: deprecated_member_use
@@ -175,6 +177,7 @@ class _AddEventPageState extends State<AddEventPage> {
                       }
                     },
                     child: Text(
+                      widget.note != null ? "Update Event" :
                       "Create Event",
                       style: style.copyWith(
                           color: Colors.white,

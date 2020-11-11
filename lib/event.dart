@@ -54,4 +54,10 @@ class EventModel extends DatabaseItem{
     // ignore: deprecated_member_use
     return Firestore.instance.collection('events').document(id).delete();
   }
+
+  Future<void> updateData(String id) {
+    // ignore: deprecated_member_use
+    return Firestore.instance.collection('events').document(id).updateData(toMap());
+  }
+
 }

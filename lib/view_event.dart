@@ -1,5 +1,7 @@
+import 'package:chickchat/add_event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:chickchat/myCalendar.dart';
 import 'package:chickchat/event.dart';
 
 class EventDetailsPage extends StatelessWidget {
@@ -68,7 +70,7 @@ class EventDetailsPage extends StatelessWidget {
       ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.edit),
-          onPressed: () => Navigator.pushNamed(context, 'add_event'),
+          onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => AddEventPage(note: event),)),
         )
     );
   }
@@ -88,15 +90,28 @@ class EventDetailsPage extends StatelessWidget {
         context: context,
         barrierDismissible: true,
         builder: (context) => AlertDialog(
-          title: Text("Caution!!"),
-          content: Text("Are you sure you want to delete this event!?"),
+          title: Text("Warning!!",textAlign: TextAlign.center,),
+          content: Text("Are you sure you want to delete this event!? Once delete cannot undo the action!!"),
+
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
           actions: <Widget>[
             FlatButton(
-              textColor: Colors.red,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              textColor: Colors.white,
+              color: Colors.red[600],
               child: Text("Delete"),
-              onPressed: () => Navigator.pop(context,true),
+              onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage(),),result: true)
             ),
+
             FlatButton(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: BorderSide(color: Colors.black)
+              ),
               textColor: Colors.black,
               child: Text("No"),
               onPressed: () => Navigator.pop(context,false),

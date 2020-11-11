@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Calendar',
+      title: 'My Calendar',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -59,7 +59,7 @@ Map<DateTime, List<dynamic>> _groupEvents(List<EventModel> events){
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Calendar'),
+        title: Text('My Calendar'),
       ),
       body: StreamBuilder<List<EventModel>>(
           stream: eventDBS.streamList(),
@@ -138,7 +138,8 @@ Map<DateTime, List<dynamic>> _groupEvents(List<EventModel> events){
                       ),
                        margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
                        child: ListTile(
-                        title: Text(event.title),
+                        title: Text(event.eventTimeStart + ' - ' + event.eventTimeEnd + '     ' + event.title),
+
                         onTap: () {
                           Navigator.push(
                               context,
