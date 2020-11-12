@@ -1,11 +1,10 @@
 import 'dart:io';
-import 'package:chickchat/ManagerChatPage.dart';
+import 'package:chickchat/UserNDoc/userProfile.dart';
 import 'package:chickchat/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 import 'StaffChatPage.dart';
 const bool kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 void main() {
@@ -70,7 +69,7 @@ class LandingPage extends StatelessWidget{
                           final user = docs[0].data();
 
                             if (user['role'] == 'Manager') {
-                              return ManagerChat(currentUserId: _user.uid);
+                              return UserProfile(currentUserId: _user.uid);
 
                             } else {
                               return StaffChat();
