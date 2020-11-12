@@ -1,82 +1,126 @@
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/design.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_widgets/flutter_widgets.dart';
 import 'package:toast/toast.dart';
 
-class StaffChat extends StatefulWidget{
-  @override
-  _StaffChatState createState() => new _StaffChatState();
-}
+import 'Controller/chatFirebase.dart';
+import 'chatroom.dart';
+class StaffChat extends StatefulWidget {
+  final String currentUserId;
 
-class _StaffChatState extends State<StaffChat>{
+  StaffChat({Key key, @required this.currentUserId}) : super(key: key);
+
+  @override
+  State createState() => StaffChatState(currentUserId: currentUserId);
+}
+class StaffChatState extends State<StaffChat> {
+  StaffChatState({Key key, @required this.currentUserId});
+
+  final String currentUserId;
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+  bool isLoading = false;
+  @override
+  void initState() {
+    FirebaseController.instance.getUnreadMSGCount();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Staff Home'),
+        title: Text(
+          'Staff Page',
+          style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              StreamBuilder(
-                stream:
-                FirebaseFirestore.instance.collection("Users").snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasData && snapshot.data != null) {
-                    final docs = snapshot.data.docs;
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.all(10.0),
-                      itemBuilder: (BuildContext context, int index) =>
-                        buildItem(context, snapshot.data.docs[index]),
-                        itemCount: snapshot.data.docs.length,
-                        //Image.network(user['userImg']
-                        //);
 
+      body: VisibilityDetector(
+        key: Key("1"),
+        onVisibilityChanged: ((visibility) {
+          print('ChatList Visibility code is '+'${visibility.visibleFraction}');
+          if (visibility.visibleFraction == 1.0) {
+            FirebaseController.instance.getUnreadMSGCount();
+          }
+        }),
+        child: Stack(
+          children: <Widget>[
+            // List
+            Container(
+              child: StreamBuilder(
+                stream:
+                FirebaseFirestore.instance.collection('Users').snapshots(),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Design.themeColor),
+                      ),
                     );
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
+
+                    return ListView.builder(
+                      padding: EdgeInsets.all(10.0),
+                      itemBuilder: (context, index) =>
+                          buildItem(context, snapshot.data.documents[index]),
+                      itemCount: snapshot.data.documents.length,
+
                     );
+
                   }
                 },
               ),
-              RaisedButton(
-                child: Text("Log out"),
-                onPressed: () async{
-                  Toast.show("You have logged out successfully!", context);
-                  await FirebaseAuth.instance.signOut();
-                },
-              )
-            ],
-          ),
+
+            ),
+
+            // Loading
+            Positioned(
+              child: isLoading ? const Loading() : Container(),
+            )
+          ],
         ),
+
       ),
+
     );
   }
+
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
+    if (document.data()['id'] == currentUserId) {
+      return Container();
+    } else {
+      print(currentUserId);
       return Container(
+        height: document.data()['uid'] != currentUserId
+            ? 80.0
+            : 0.0,
         child: FlatButton(
           child: Row(
             children: <Widget>[
               Material(
                 child: document.data()['userImg'] != null
                     ? CachedNetworkImage(
-                  placeholder: (context, url) => Container(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 1.0,
-                      valueColor:
-                      AlwaysStoppedAnimation<Color>(Colors.amber),
-                    ),
-                    width: 50.0,
-                    height: 50.0,
-                    padding: EdgeInsets.all(15.0),
-                  ),
+                  placeholder: (context, url) =>
+                      Container(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 1.0,
+                          valueColor:
+                          AlwaysStoppedAnimation<Color>(Colors.amber),
+                        ),
+                        width: 50.0,
+                        height: 50.0,
+                        padding: EdgeInsets.all(15.0),
+                      ),
                   imageUrl: document.data()['userImg'],
                   width: 50.0,
                   height: 50.0,
@@ -96,7 +140,7 @@ class _StaffChatState extends State<StaffChat>{
                     children: <Widget>[
                       Container(
                         child: Text(
-                          'Nickname: ${document.data()['name']}',
+                          '${document.data()['name']}',
                           style: TextStyle(color: Colors.black),
                         ),
                         alignment: Alignment.centerLeft,
@@ -104,7 +148,7 @@ class _StaffChatState extends State<StaffChat>{
                       ),
                       Container(
                         child: Text(
-                          'Role: ${document.data()['role'] ?? 'Not available'}',
+                          ' ${document.data()['role']}',
                           style: TextStyle(color: Colors.black),
                         ),
                         alignment: Alignment.centerLeft,
@@ -118,7 +162,15 @@ class _StaffChatState extends State<StaffChat>{
             ],
           ),
           onPressed: () {
-
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        Chat(
+                          peerId: document.id,
+                          peerName: document.data()['name'],
+                          peerAvatar: document.data()['userImg'],
+                        )));
           },
           color: Colors.grey,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
@@ -127,8 +179,13 @@ class _StaffChatState extends State<StaffChat>{
         ),
         margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
       );
-
+    }
   }
+
 }
+class Choice {
+  const Choice({this.title, this.icon});
 
-
+  final String title;
+  final IconData icon;
+}

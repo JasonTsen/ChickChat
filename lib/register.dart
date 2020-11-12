@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:chickchat/design.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/design.dart';
 import 'package:chickchat/login.dart';
 import 'package:chickchat/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,8 +8,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
-import 'customBtn.dart';
-import 'customInput.dart';
+import 'Pattern/customBtn.dart';
+import 'Pattern/customInput.dart';
 class RegisterPage extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
@@ -57,7 +57,6 @@ class _RegisterState extends State<RegisterPage> {
 
 
       _uploadImgFile = await taskSnapshot.ref.getDownloadURL();
-
       _userSetup(_name, _email,_password, _phone, _userRole, _uploadImgFile, _chattingWith);
   }
   Future<void> _userSetup(String userName, String email, String password, String phoneNo, String role, String userImg, String chattingWith) async{
@@ -274,10 +273,10 @@ class _RegisterState extends State<RegisterPage> {
                           _phone = value;
                         },
                         hintText: "Enter Phone No...",
-                        onSubmitted: (value){
-                          _submitReg();
-                        },
 
+                      onSubmitted: (value){
+                        _submitReg();
+                      },
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -292,6 +291,7 @@ class _RegisterState extends State<RegisterPage> {
                                 setSelectedRadio(val);
                               });
                             },
+
                           ),
                         Text("Staff", style: Design.regularDarkText),
                         Radio(

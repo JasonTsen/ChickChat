@@ -1,12 +1,13 @@
 
-import 'package:chickchat/customBtn.dart';
-import 'package:chickchat/customInput.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/customBtn.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/customInput.dart';
 import 'package:chickchat/register.dart';
+import 'package:chickchat/forgetpassword.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
-import 'design.dart';
+import 'Pattern/design.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -151,7 +152,12 @@ class _LoginPageState extends State<LoginPage>{
                 CustomBtn(
                   text: "Forget Password",
                   onPressed: (){
-                    print("Clicked the Forget Button");
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ForgetPassword()
+                      ),
+                    );
                   },
                   outlineBtn: true,
                 ),

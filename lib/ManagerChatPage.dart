@@ -1,11 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chickchat/design.dart';
-import 'package:chickchat/loading.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/design.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_widgets/flutter_widgets.dart';
 import 'package:toast/toast.dart';
 
+import 'Controller/chatFirebase.dart';
+import 'Pattern/bottom_tabs.dart';
 import 'chatroom.dart';
 class ManagerChat extends StatefulWidget {
   final String currentUserId;
@@ -17,22 +22,35 @@ class ManagerChat extends StatefulWidget {
 }
 class ManagerChatState extends State<ManagerChat> {
   ManagerChatState({Key key, @required this.currentUserId});
-
+  String userId = "";
   final String currentUserId;
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
   bool isLoading = false;
-
+  @override
+  void initState() {
+    FirebaseController.instance.getUnreadMSGCount();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
         title: Text(
-          'Chat',
+          'Manager Page',
           style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),
         ),
       ),
 
-      body: WillPopScope(
+      body: VisibilityDetector(
+        key: Key("1"),
+        onVisibilityChanged: ((visibility) {
+          print('ChatList Visibility code is '+'${visibility.visibleFraction}');
+          if (visibility.visibleFraction == 1.0) {
+            FirebaseController.instance.getUnreadMSGCount();
+          }
+        }),
         child: Stack(
           children: <Widget>[
             // List
@@ -53,6 +71,7 @@ class ManagerChatState extends State<ManagerChat> {
                       padding: EdgeInsets.all(10.0),
                       itemBuilder: (context, index) =>
                           buildItem(context, snapshot.data.documents[index]),
+
                       itemCount: snapshot.data.documents.length,
 
                     );
@@ -62,31 +81,28 @@ class ManagerChatState extends State<ManagerChat> {
               ),
 
             ),
-            RaisedButton(
-              child: Text("Log out"),
 
-              onPressed: () async{
-                Toast.show("You have logged out successfully!", context, duration: Toast.LENGTH_LONG);
-                await FirebaseAuth.instance.signOut();
-              },
-            ),
+
             // Loading
             Positioned(
               child: isLoading ? const Loading() : Container(),
-            )
+            ),
+
           ],
+
         ),
 
       ),
 
     );
+
   }
+
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     if (document.data()['id'] == currentUserId) {
-
       return Container();
     } else {
-      print(currentUserId);
+
       return Container(
         height: document.data()['uid'] != currentUserId
             ? 80.0
@@ -135,7 +151,7 @@ class ManagerChatState extends State<ManagerChat> {
                       ),
                       Container(
                         child: Text(
-                          ' ${document.data()['role'] ?? 'Not available'}',
+                          ' ${document.data()['role']}',
                           style: TextStyle(color: Colors.black),
                         ),
                         alignment: Alignment.centerLeft,
@@ -146,8 +162,10 @@ class ManagerChatState extends State<ManagerChat> {
                   margin: EdgeInsets.only(left: 20.0),
                 ),
               ),
+
             ],
           ),
+
           onPressed: () {
             Navigator.push(
                 context,
@@ -158,15 +176,21 @@ class ManagerChatState extends State<ManagerChat> {
                           peerName: document.data()['name'],
                           peerAvatar: document.data()['userImg'],
                         )));
+
           },
+
           color: Colors.grey,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
+
         margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
+
       );
+
     }
+
   }
 
 }
