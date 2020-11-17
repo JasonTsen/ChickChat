@@ -39,6 +39,7 @@ class StaffChatState extends State<StaffChat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Staff Page',
           style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),

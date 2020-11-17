@@ -36,7 +36,7 @@ class FirebaseController {
 
       StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
       String imageURL = await storageTaskSnapshot.ref.getDownloadURL(); // Image URL from firebase's image file
-      String result = await saveUserDataToFirebaseDatabase(userId,userName,userIntro,imageURL);
+      String result = await saveUserDataToFirebaseDatabase(userId,userName,imageURL);
       return result;
     }catch(e) {
       print(e.message);
@@ -44,17 +44,16 @@ class FirebaseController {
     }
   }
 // About Firebase Database
-  Future<String> saveUserDataToFirebaseDatabase(userId,userName,userIntro,downloadUrl) async {
+  Future<String> saveUserDataToFirebaseDatabase(userId,userName,downloadUrl) async {
     DocumentSnapshot document;
     try {
       final QuerySnapshot result = await FirebaseFirestore.instance.collection('users').where('FCMToken', isEqualTo: document.data()['FCMToken']).get();
       final List<DocumentSnapshot> documents = result.docs;
       String myID = userId;
       if (documents.length == 0) {
-        await FirebaseFirestore.instance.collection('users').doc(userId).set({
+        await FirebaseFirestore.instance.collection('Users').doc(userId).set({
           'userId':userId,
           'name':userName,
-          'intro':userIntro,
           'userImageUrl':downloadUrl,
           'createdAt': DateTime.now().millisecondsSinceEpoch,
           'FCMToken': document.data()['FCMToken']?? 'NOToken',
@@ -65,7 +64,6 @@ class FirebaseController {
         document.data()['userId'] = myID;
         await FirebaseFirestore.instance.collection('users').doc(userID).update({
           'name':userName,
-          'intro':userIntro,
           'userImageUrl':downloadUrl,
           'createdAt': DateTime.now().millisecondsSinceEpoch,
           'FCMToken':document.data()['FCMToken']?? 'NOToken',
@@ -85,7 +83,7 @@ class FirebaseController {
 
   Future<List<DocumentSnapshot>> takeUserInformationFromFBDB() async{
     DocumentSnapshot document;
-    final QuerySnapshot result = await FirebaseFirestore.instance.collection('users').where('FCMToken', isEqualTo: document.data()['FCMToken'] ?? 'None').get();
+    final QuerySnapshot result = await FirebaseFirestore.instance.collection('Users').where('FCMToken', isEqualTo: document.data()['FCMToken'] ?? 'None').get();
     return result.docs;
   }
 
@@ -98,17 +96,17 @@ class FirebaseController {
       peerUserID == null ? targetID = (auth.currentUser.uid ?? 'NoId') : targetID = peerUserID;
 //      if (targetID != 'NoId') {
       final QuerySnapshot chatListResult =
-      await FirebaseFirestore.instance.collection('Users').doc(targetID).collection('chatlist').get();
+      await FirebaseFirestore.instance.collection('Users').get();
       final List<DocumentSnapshot> chatListDocuments = chatListResult.docs;
       for(var data in chatListDocuments) {
-        final QuerySnapshot unReadMSGDocument = await FirebaseFirestore.instance.collection('chatroom').
+        final QuerySnapshot unReadMSGDocument = await FirebaseFirestore.instance.collection('chats').
         doc(data['chatID']).
         collection(data['chatID']).
         where('idTo', isEqualTo: targetID).
         where('isread', isEqualTo: false).
         get();
 
-        final List<DocumentSnapshot> unReadMSGDocuments = unReadMSGDocument.documents;
+        final List<DocumentSnapshot> unReadMSGDocuments = unReadMSGDocument.docs;
         unReadMSGCount = unReadMSGCount + unReadMSGDocuments.length;
       }
       print('unread MSG count is $unReadMSGCount');

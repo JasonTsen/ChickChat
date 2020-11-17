@@ -182,7 +182,7 @@ class ChatScreenState extends State<ChatScreen> {
           .doc(messageID);
 
       FirebaseFirestore.instance.runTransaction((transaction) async {
-        transaction.set(
+          transaction.set(
           documentReference,
           {
             'idFrom': id,
@@ -370,19 +370,7 @@ class ChatScreenState extends State<ChatScreen> {
                               ),
                             ),
                           ),
-                          errorWidget: (context, url, error) =>
-                              Material(
-                                child: Image.asset(
-                                  'images/img_not_available.jpeg',
-                                  width: 200.0,
-                                  height: 200.0,
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(8.0),
-                                ),
-                                clipBehavior: Clip.hardEdge,
-                              ),
+
                           imageUrl: document.data()['content'],
                           width: 200.0,
                           height: 200.0,

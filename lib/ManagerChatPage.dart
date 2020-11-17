@@ -37,8 +37,10 @@ class ManagerChatState extends State<ManagerChat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text(
           'Manager Page',
+
           style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),
         ),
       ),
@@ -179,7 +181,7 @@ class ManagerChatState extends State<ManagerChat> {
 
           },
 
-          color: Colors.grey,
+          color: Colors.amber,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),

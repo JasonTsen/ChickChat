@@ -3,7 +3,7 @@ import 'package:chickchat/ManagerChatPage.dart';
 import 'package:chickchat/StaffChatPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:chickchat/UserNDoc/userProfile.dart';
 
 import 'Pattern/bottom_tabs.dart';
 
@@ -50,7 +50,7 @@ class _ManagerHomePageState extends State<ManagerHomePage> {
               },
               children: [
                 ManagerChat(currentUserId: auth.currentUser.uid),
-                StaffChat(currentUserId: auth.currentUser.uid)
+                UserProfile(currentUserId: auth.currentUser.uid)
               ],
             ),
           ),

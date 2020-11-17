@@ -1,4 +1,3 @@
-
 import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/customBtn.dart';
 import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/customInput.dart';
 import 'package:chickchat/register.dart';
@@ -13,17 +12,13 @@ class LoginPage extends StatefulWidget{
   @override
   _LoginPageState createState() => new _LoginPageState();
 }
-
 class _LoginPageState extends State<LoginPage>{
   final FirebaseAuth auth = FirebaseAuth.instance;
   bool _loginLoad = false;
   String _email;
   String _password;
   FocusNode _passwordFocus;
-
   Future<String> _login() async{
-
-
     try{
       await FirebaseAuth
           .instance
@@ -31,10 +26,10 @@ class _LoginPageState extends State<LoginPage>{
 
       return null;
     } on FirebaseAuthException catch(e) {
-      if(e.code == 'weak-password'){
-        return 'The password provided is too weak';
-      }else if(e.code == 'email-already-in-use'){
-        return 'The account already exists for that email.';
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
       }
       return e.message;
     }catch(e){
@@ -73,27 +68,28 @@ class _LoginPageState extends State<LoginPage>{
       setState(() {
         _loginLoad = false;
       });
+    }else{
+      FirebaseFirestore.instance.collection('Users')
+          .doc(auth.currentUser.uid)
+          .update({'pass': _password});
+      Toast.show("You have login as " + auth.currentUser.displayName + ".", context, duration: Toast.LENGTH_LONG);
     }
-    Toast.show("You have login as " + auth.currentUser.displayName + ".", context, duration: Toast.LENGTH_LONG);
+
   }
   @override
   void initState(){
-
     super.initState();
     _passwordFocus = FocusNode();
-
   }
   @override
   void dispose(){
     _passwordFocus.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(resizeToAvoidBottomPadding: false,
-
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
           child: Container(
@@ -107,11 +103,10 @@ class _LoginPageState extends State<LoginPage>{
                 ),
                 Column(
                   children: [
-
                     Container(
                       padding: EdgeInsets.only(
                       top: 24.0,
-                ),
+                      ),
                       child: Text(
                         "ChickChat",
                         textAlign: TextAlign.center,
@@ -124,7 +119,6 @@ class _LoginPageState extends State<LoginPage>{
                       },
                           hintText: "Enter Email...",
                       textInputAction: TextInputAction.next,
-
                     ),
                     CustomInput(
                       onChanged: (value){
@@ -140,14 +134,12 @@ class _LoginPageState extends State<LoginPage>{
                     CustomBtn(
                       text: "Login",
                       onPressed: () async{
-
                         _submitLog();
                       },
                       outlineBtn: false,
                       isLoad: _loginLoad,
                     ),
                   ],
-
                 ),
                 CustomBtn(
                   text: "Forget Password",
@@ -178,8 +170,6 @@ class _LoginPageState extends State<LoginPage>{
                     outlineBtn: true,
                   ),
                 ),
-
-
               ],
             ),
           ),

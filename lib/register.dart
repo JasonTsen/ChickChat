@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/design.dart';
-import 'package:chickchat/login.dart';
-import 'package:chickchat/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -22,6 +20,7 @@ class _RegisterState extends State<RegisterPage> {
   int selectedRad;
   File imageFile;
   String _uploadImgFile;
+  final GlobalKey<FormState> _formKey = GlobalKey();
   final _picker = ImagePicker();
   Future  _openGallery() async{
 
@@ -54,18 +53,14 @@ class _RegisterState extends State<RegisterPage> {
     StorageUploadTask uploadTask = storageReference.putFile(imageFile);
     StorageTaskSnapshot taskSnapshot = await uploadTask.onComplete;
     print("file uploaded");
-
-
       _uploadImgFile = await taskSnapshot.ref.getDownloadURL();
       _userSetup(_name, _email,_password, _phone, _userRole, _uploadImgFile, _chattingWith);
   }
   Future<void> _userSetup(String userName, String email, String password, String phoneNo, String role, String userImg, String chattingWith) async{
     FirebaseAuth auth = FirebaseAuth.instance;
     String uid = auth.currentUser.uid.toString();
-
     FirebaseFirestore.instance.collection('Users').doc(auth.currentUser.uid)
         .set({'uid': uid, 'name': userName, 'email': email, 'pass': password, 'phone': phoneNo, 'role': role, 'userImg': userImg, 'chattingWith' : chattingWith});
-
   }
   Future<String> _createUser() async{
     try{
@@ -75,6 +70,7 @@ class _RegisterState extends State<RegisterPage> {
 
       User updateUser = FirebaseAuth.instance.currentUser;
       updateUser.updateProfile(displayName: _name);
+
       uploadFile();
 
       return null;
@@ -86,7 +82,16 @@ class _RegisterState extends State<RegisterPage> {
       }
       return e.message;
     }catch(e){
-      return e.toString();
+      return "Invalid data entered!";
+    }
+  }
+  void validateAndSave() {
+    final FormState form = _formKey.currentState;
+    if (form.validate()) {
+      print('Form is valid');
+      _submitReg();
+    } else {
+      print('Form is invalid');
     }
   }
   _submitReg() async{
@@ -102,7 +107,6 @@ class _RegisterState extends State<RegisterPage> {
     }else{
       Toast.show("You have registered and login as " + _name +".", context,  duration: Toast.LENGTH_LONG);
       Navigator.pop(context);
-
     }
   }
   Future<void> _alertDialog(String error) async{
@@ -154,7 +158,8 @@ class _RegisterState extends State<RegisterPage> {
       body: SingleChildScrollView(
         child: Container(
           width: double.infinity,
-          child: Container(
+          child: Form(
+            key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -184,8 +189,8 @@ class _RegisterState extends State<RegisterPage> {
                                   child: (imageFile!=null)?Image.file(
                                     imageFile,
                                     fit: BoxFit.fill,
-                                  ):Image.network(
-                                    "https://images.unsplash.com/photo-1502164980785-f8aa41d53611?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60",
+                                  ):Image.asset(
+                                    "assets/images/user_profile.png",
                                     fit: BoxFit.fill,
                                   ),
 
@@ -245,14 +250,16 @@ class _RegisterState extends State<RegisterPage> {
                         onChanged: (value){
                           _name = value;
                         },
-                        hintText: "Enter Name...",
+                      validator: validateName,
+                        hintText: "E.g Ali Chong",
                         textInputAction: TextInputAction.next,
                     ),
                     CustomInput(
                         onChanged: (value){
                           _email = value;
                         },
-                        hintText: "Enter Email...",
+                        validator: validateEmail,
+                        hintText: "E.g ali@gmail.com",
                         textInputAction: TextInputAction.next,
                         onSubmitted: (value){
                           _passwordFocus.requestFocus();
@@ -262,7 +269,9 @@ class _RegisterState extends State<RegisterPage> {
                         onChanged: (value){
                           _password = value;
                         },
-                        hintText: "Enter Password...",
+                      validator: validatePassword,
+                        hintText: "E.g Abc123",
+
                       focusNode: _passwordFocus,
                       textInputAction: TextInputAction.next,
                       isPassField: true,
@@ -272,11 +281,9 @@ class _RegisterState extends State<RegisterPage> {
                         onChanged: (value){
                           _phone = value;
                         },
-                        hintText: "Enter Phone No...",
+                      validator: validateMobile,
+                        hintText: "E.g 0128776654",
 
-                      onSubmitted: (value){
-                        _submitReg();
-                      },
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -285,6 +292,7 @@ class _RegisterState extends State<RegisterPage> {
                             activeColor: Colors.black,
                             value: 1,
                             groupValue: selectedRad,
+
                             onChanged: (val){
                               setState(() {
                                 _userRole = "Staff";
@@ -302,15 +310,14 @@ class _RegisterState extends State<RegisterPage> {
                               _userRole = "Manager";
                               setSelectedRadio(val);
                             },
+
                           ),
                         Text("Manager", style: Design.regularDarkText),
                       ],
                     ),
                     CustomBtn(
                       text: "Create New Account",
-                      onPressed: (){
-                        _submitReg();
-                      },
+                      onPressed: validateAndSave,
                       isLoad: _registerLoad,
                       outlineBtn: false,
                     ),
@@ -325,5 +332,35 @@ class _RegisterState extends State<RegisterPage> {
 
       ),
     );
+  }
+  String validateName(String value) {
+    if (value.length < 3)
+      return 'Name must be more than 2 charater';
+    else
+      return null;
+  }
+  String validateMobile(String value) {
+    if (value.length != 10)
+      return 'Mobile Number must be of 10 digit';
+    else
+      return null;
+  }
+  String validatePassword(String value){
+    Pattern pattern =
+        r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Contain atleast *one letter, *one number\n and *longer than six characters.';
+    else
+      return null;
+  }
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Enter Valid Email';
+    else
+      return null;
   }
 }

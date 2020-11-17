@@ -42,7 +42,7 @@ class NotificationController {
 //    initLocalNotification();
 //  }
   Future<void> updateUserToken(userID, token) async {
-    await FirebaseFirestore.instance.collection('users').doc(userID).set({
+    await FirebaseFirestore.instance.collection('Users').doc(userID).set({
       'FCMToken':token,
     });
   }
