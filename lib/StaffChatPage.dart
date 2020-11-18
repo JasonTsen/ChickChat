@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/design.dart';
-import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/loading.dart';
+import 'package:chickchat/Pattern/design.dart';
+import 'package:chickchat/Pattern/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';

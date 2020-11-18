@@ -1,4 +1,5 @@
 import 'package:chickchat/event_firestore_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,12 +8,7 @@ import 'package:chickchat/view_event.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:chickchat/event.dart';
 
-void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MyApp());}
-
-class MyApp extends StatelessWidget {
+class MyCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   CalendarController _controller;
   Map<DateTime, List<dynamic>> _events;
   List<dynamic> _selectedEvents;
-
+  //========================FirebaseAuth userAuth = FirebaseAuth.instance;
   @override
   void initState() {
     super.initState();
