@@ -1,6 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 class BottomTab extends StatefulWidget {
   final int selectedTab;
   final Function(int) tabPressed;
@@ -68,10 +67,11 @@ class _BottomTabState extends State<BottomTab>{
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         BottomTabNav(
-                          imagePath: Icons.upload_sharp,
+                          imagePath: CupertinoIcons.doc_text,
                           label: Text("Chat"),
                           selected: _selectedTab == 5 ? true : false,
                           onPressed: () {
+                            Navigator.pop(context);
                             widget.tabPressed(5);
                           },
                         ),
@@ -80,6 +80,7 @@ class _BottomTabState extends State<BottomTab>{
                           label: Text("Chat"),
                           selected: _selectedTab == 6 ? true : false,
                           onPressed: () {
+                            Navigator.pop(context);
                             widget.tabPressed(6);
                           },
                         ),
@@ -108,7 +109,7 @@ class BottomTabNav extends StatelessWidget{
       onTap: onPressed,
       child: Container(
         padding: EdgeInsets.symmetric(
-          vertical: 28.0,
+          vertical: 20.0,
           horizontal: 24.0,
         ),
         decoration: BoxDecoration(
@@ -120,9 +121,6 @@ class BottomTabNav extends StatelessWidget{
             )
         ),
         child: Icon(imagePath, color: _selected ? Theme.of(context).accentColor : Colors.black, ),
-
-
-
       ),
 
     );
