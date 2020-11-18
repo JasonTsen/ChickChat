@@ -1,6 +1,6 @@
 import 'package:chickchat/Controller/constants.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_details.dart';
-import 'file:///C:/Users/andyc/StudioProjects/ChickChat/lib/ProjectNAnnouncement/Project/Task/task_card.dart';
+import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_card.dart';
 import 'package:chickchat/models/Project.dart';
 import 'package:chickchat/models/Task.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-import 'file:///C:/Users/andyc/StudioProjects/ChickChat/lib/ProjectNAnnouncement/Project/app_bar.dart';
+import 'package:chickchat/ProjectNAnnouncement/Project/app_bar.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/body.dart';
 import 'package:flutter/material.dart';
 

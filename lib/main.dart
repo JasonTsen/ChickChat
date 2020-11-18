@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'Controller/notification.dart';
 const bool kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 void main() {
