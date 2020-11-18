@@ -1,6 +1,10 @@
 
 import 'package:chickchat/ManagerChatPage.dart';
+import 'package:chickchat/ProjectNAnnouncement/Project/project_list.dart';
+import 'file:///C:/Users/andyc/StudioProjects/ChickChat/lib/ProjectNAnnouncement/Announcement/announcement.dart';
+import 'file:///C:/Users/andyc/StudioProjects/ChickChat/lib/ProjectNAnnouncement/Project/project_screen.dart';
 import 'package:chickchat/StaffChatPage.dart';
+import 'package:chickchat/models/Project.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:chickchat/UserNDoc/userProfile.dart';
@@ -50,6 +54,8 @@ class _ManagerHomePageState extends State<ManagerHomePage> {
               },
               children: [
                 ManagerChat(currentUserId: auth.currentUser.uid),
+                ProjectList(),
+                AnnouncementScreen(),
               ],
             ),
           ),
@@ -58,7 +64,7 @@ class _ManagerHomePageState extends State<ManagerHomePage> {
             tabPressed: (num) {
               _tabsPageController.animateToPage(
                   num,
-                  duration: Duration(milliseconds: 300),
+                  duration: Duration(milliseconds: 200),
                   curve: Curves.easeOutCubic);
             },
           ),

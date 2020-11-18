@@ -1,5 +1,5 @@
-import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/customBtn.dart';
-import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/customInput.dart';
+import 'package:chickchat/Pattern/customBtn.dart';
+import 'package:chickchat/Pattern/customInput.dart';
 import 'package:chickchat/register.dart';
 import 'package:chickchat/forgetpassword.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
