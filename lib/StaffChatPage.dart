@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chickchat/Pattern/design.dart';
-import 'package:chickchat/Pattern/loading.dart';
+import 'UserNDoc/userProfile.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/design.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -39,6 +40,24 @@ class StaffChatState extends State<StaffChat> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+
+        actions: [
+          IconButton(
+            iconSize: 40,
+            padding: EdgeInsets.fromLTRB(
+              10,10,20,10
+            ),
+            icon: Icon(Icons.person)
+            ,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          UserProfile(currentUserId: auth.currentUser.uid)));
+            },
+          )
+        ],
         automaticallyImplyLeading: false,
         title: Text(
           'Staff Page',

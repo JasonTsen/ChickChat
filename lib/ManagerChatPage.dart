@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chickchat/Pattern/design.dart';
-import 'package:chickchat/Pattern/loading.dart';
+import 'Controller/notification.dart';
+import 'UserNDoc/userProfile.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/design.dart';
+import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
 import 'package:toast/toast.dart';
@@ -21,6 +24,7 @@ class ManagerChat extends StatefulWidget {
   State createState() => ManagerChatState(currentUserId: currentUserId);
 }
 class ManagerChatState extends State<ManagerChat> {
+
   ManagerChatState({Key key, @required this.currentUserId});
   String userId = "";
   final String currentUserId;
@@ -30,19 +34,74 @@ class ManagerChatState extends State<ManagerChat> {
   bool isLoading = false;
   @override
   void initState() {
+
     FirebaseController.instance.getUnreadMSGCount();
     super.initState();
   }
+  Future<int> getUnreadMSGCount([String peerUserID]) async{
+    try {
+      int unReadMSGCount = 0;
+      String targetID = '';
+      FirebaseAuth auth = FirebaseAuth.instance;
+
+      peerUserID == null ? targetID = (auth.currentUser.uid ?? 'NoId') : targetID = peerUserID;
+//      if (targetID != 'NoId') {
+      final QuerySnapshot chatListResult =
+      await FirebaseFirestore.instance.collection('Users').get();
+      final List<DocumentSnapshot> chatListDocuments = chatListResult.docs;
+      for(var data in chatListDocuments) {
+        final QuerySnapshot unReadMSGDocument = await FirebaseFirestore.instance.collection('chats').
+        doc(data['chatID']).
+        collection(data['chatID']).
+        where('idTo', isEqualTo: targetID).
+        where('isread', isEqualTo: false).
+        get();
+
+        final List<DocumentSnapshot> unReadMSGDocuments = unReadMSGDocument.docs;
+        unReadMSGCount = unReadMSGCount + unReadMSGDocuments.length;
+      }
+      print('unread MSG count is $unReadMSGCount');
+//      }
+      if (peerUserID == null) {
+        FlutterAppBadger.updateBadgeCount(unReadMSGCount);
+        return null;
+      }else {
+        return unReadMSGCount;
+      }
+
+    }catch(e) {
+      print(e.message);
+    }
+  }
+  FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        actions: [
+          IconButton(
+            iconSize: 40,
+            padding: EdgeInsets.fromLTRB(
+                10,10,20,10
+            ),
+            icon: Icon(Icons.person)
+            ,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          UserProfile(currentUserId: auth.currentUser.uid)));
+            },
+          )
+        ],
         title: Text(
           'Manager Page',
 
           style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),
         ),
+
       ),
 
       body: VisibilityDetector(
@@ -181,7 +240,7 @@ class ManagerChatState extends State<ManagerChat> {
 
           },
 
-          color: Colors.amber,
+          color: Design.greyColor,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),

@@ -1,9 +1,5 @@
-
-import 'package:chickchat/ManagerChatPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:chickchat/myCalendar.dart';
-import 'package:chickchat/UserNDoc/userProfile.dart';
 import 'StaffChatPage.dart';
 import 'Pattern/bottom_tabs.dart';
 
@@ -51,10 +47,7 @@ class _StaffHomePageState extends State<StaffHomePage> {
               children: [
 
                 StaffChat(currentUserId: auth.currentUser.uid),
-                UserProfile(currentUserId: auth.currentUser.uid),
-                MyCalendar(),
-                UserProfile(currentUserId: auth.currentUser.uid), StaffChat(currentUserId: auth.currentUser.uid),UserProfile(currentUserId: auth.currentUser.uid),
-                StaffChat(currentUserId: auth.currentUser.uid),UserProfile(currentUserId: auth.currentUser.uid),
+                StaffChat(currentUserId: auth.currentUser.uid),
               ],
             ),
           ),

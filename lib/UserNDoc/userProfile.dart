@@ -193,6 +193,7 @@ class _UserProfileState extends State<UserProfile> {
                                         child: Text("Log out"),
                                         onPressed: () async{
                                           Toast.show("You have logged out successfully!", context, duration: Toast.LENGTH_LONG);
+                                          Navigator.pop(context);
                                           await FirebaseAuth.instance.signOut();
                                         },
                                       ),
