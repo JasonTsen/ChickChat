@@ -157,6 +157,7 @@ Map<DateTime, List<dynamic>> _groupEvents(List<EventModel> events){
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
+        tooltip: 'Add your event',
         onPressed: () => Navigator.pushNamed(context, 'add_event'),
       ),
     );

@@ -36,8 +36,7 @@ class _AddEventPageState extends State<AddEventPage> {
     _timeRange = _defaultTimeRange;
     processing = false;
   }
-
-  get isEditMode => widget.note != null;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
