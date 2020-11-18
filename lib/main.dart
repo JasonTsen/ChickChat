@@ -1,12 +1,11 @@
 import 'dart:io';
-import 'package:chickchat/ManagerChatPage.dart';
 import 'package:chickchat/login.dart';
+import 'package:chickchat/managerHome.dart';
+import 'package:chickchat/staffHome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
-import 'StaffChatPage.dart';
 const bool kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -19,8 +18,8 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Test',
+    return MaterialApp(debugShowCheckedModeBanner: false,
+      title: 'ChickChat',
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
@@ -70,12 +69,11 @@ class LandingPage extends StatelessWidget{
                           final user = docs[0].data();
 
                             if (user['role'] == 'Manager') {
-                              return ManagerChat(currentUserId: _user.uid);
+                              return ManagerHomePage(currentUserId: _user.uid);
 
                             } else {
-                              return StaffChat();
+                              return StaffHomePage(currentUserId: _user.uid);
                             }
-
                         }
                         else {
                           return Material(child: Center(
