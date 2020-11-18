@@ -95,10 +95,11 @@ class ManagerChatState extends State<ManagerChat> {
                           UserProfile(currentUserId: auth.currentUser.uid)));
             },
           )
+
         ],
+
         title: Text(
           'Manager Page',
-
           style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),
         ),
 
@@ -142,6 +143,19 @@ class ManagerChatState extends State<ManagerChat> {
               ),
 
             ),
+            Container(
+              padding: EdgeInsets.only(bottom: 20.0, left: 300.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: FloatingActionButton(
+                  onPressed: (){
+
+                  },
+                  child: Icon(Icons.add),
+                ),
+              ),
+            ),
+
 
 
             // Loading

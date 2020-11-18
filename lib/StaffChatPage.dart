@@ -39,6 +39,7 @@ class StaffChatState extends State<StaffChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
 
         actions: [
@@ -59,10 +60,12 @@ class StaffChatState extends State<StaffChat> {
           )
         ],
         automaticallyImplyLeading: false,
+
         title: Text(
           'Staff Page',
           style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),
         ),
+
       ),
 
       body: VisibilityDetector(
@@ -203,6 +206,7 @@ class StaffChatState extends State<StaffChat> {
   }
 
 }
+
 class Choice {
   const Choice({this.title, this.icon});
 

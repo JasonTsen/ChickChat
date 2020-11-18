@@ -337,10 +337,15 @@ class _RegisterState extends State<RegisterPage> {
       return null;
   }
   String validateMobile(String value) {
-    if (value.length != 10)
-      return 'Mobile Number must be of 10 digit';
-    else
-      return null;
+    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(patttern);
+    if (value.length == 0) {
+      return 'Please enter mobile number';
+    }
+    else if (!regExp.hasMatch(value)) {
+      return 'Please enter valid mobile number';
+    }
+    return null;
   }
   String validatePassword(String value){
     Pattern pattern =

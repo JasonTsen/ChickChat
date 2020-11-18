@@ -112,6 +112,7 @@ class LandingPageState extends State<LandingPage>{
         return Scaffold(
           body: Center(
             child: Text("Connection to the app..."),
+
           ),
         );
 
