@@ -38,14 +38,16 @@ class EventDetailsPage extends StatelessWidget {
             ),
             // ignore: deprecated_member_use
             SizedBox(height: 20.0),
+            
             Row(mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-              Icon(IconData(59047, fontFamily: 'MaterialIcons'),size: 50,),
-              SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-              Text(event.description, style: TextStyle(fontSize: 22.0,),),
-            ],
+              children: <Widget>[
+                SizedBox(width: MediaQuery.of(context).size.width * 0.05),
+                Icon(IconData(59047, fontFamily: 'MaterialIcons'),size: 50,),
+                SizedBox(width: MediaQuery.of(context).size.width * 0.1),
+                Text(event.description, style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.clip,),
+              ],
             ),
+
             SizedBox(height: 20.0),
             Row(mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -70,6 +72,7 @@ class EventDetailsPage extends StatelessWidget {
       ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.edit),
+          tooltip: 'Edit your event',
           onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => AddEventPage(note: event),)),
         )
     );
