@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+import 'Controller/notification.dart';
 const bool kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -15,7 +17,9 @@ void main() {
   };
   runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(debugShowCheckedModeBanner: false,
@@ -27,9 +31,19 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-class LandingPage extends StatelessWidget{
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+class LandingPage extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => LandingPageState();
 
+}
+class LandingPageState extends State<LandingPage>{
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  @override
+  void initState() {
+    NotificationController.instance.takeFCMTokenWhenAppLaunch();
+    NotificationController.instance.initLocalNotification();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -12,10 +12,7 @@ class RegisterPage extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
 }
-
 class _RegisterState extends State<RegisterPage> {
-
-
   String _name, _email, _password, _userRole, _phone, _chattingWith;
   int selectedRad;
   File imageFile;

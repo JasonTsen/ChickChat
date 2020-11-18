@@ -240,7 +240,7 @@ class ChatScreenState extends State<ChatScreen> {
               padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
               width: 200.0,
               decoration: BoxDecoration(
-                  color: Design.greyColor2,
+                  color: Design.themeColor,
                   borderRadius: BorderRadius.circular(8.0)),
               margin: EdgeInsets.only(
                   bottom: isLastMessageRight(index) ? 20.0 : 10.0,
@@ -320,7 +320,7 @@ class ChatScreenState extends State<ChatScreen> {
                         child: CircularProgressIndicator(
                           strokeWidth: 1.0,
                           valueColor:
-                          AlwaysStoppedAnimation<Color>(Design.themeColor),
+                          AlwaysStoppedAnimation<Color>(Design.greyColor2),
                         ),
                         width: 35.0,
                         height: 35.0,
@@ -341,12 +341,12 @@ class ChatScreenState extends State<ChatScreen> {
                       ? Container(
                     child: Text(
                       document.data()['content'],
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                     padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                     width: 200.0,
                     decoration: BoxDecoration(
-                        color: Design.themeColor,
+                        color: Design.greyColor2,
                         borderRadius: BorderRadius.circular(8.0)),
                     margin: EdgeInsets.only(left: 10.0),
                   )
@@ -545,7 +545,7 @@ class ChatScreenState extends State<ChatScreen> {
       width: double.infinity,
       height: 50.0,
       decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: Design.greyColor2, width: 0.5)),
+          border: Border(top: BorderSide(color: Design.themeColor, width: 0.5)),
           color: Colors.white),
     );
   }

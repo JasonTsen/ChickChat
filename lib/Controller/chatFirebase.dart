@@ -21,28 +21,7 @@ class FirebaseController {
       print(e.message);
     }
   }
-  // Save Image to Storage
-  Future<String> saveUserImageToFirebaseStorage(userId,userName,userIntro,userImageFile) async {
-    DocumentSnapshot document;
-    try {
-       document.data()['userId'] = userId;
-       document.data()['name'] = userName;
-       document.data()['intro'] = userIntro;
 
-
-      String filePath = 'userImages/$userId';
-      final StorageReference storageReference = FirebaseStorage().ref().child(filePath);
-      final StorageUploadTask uploadTask = storageReference.putFile(userImageFile);
-
-      StorageTaskSnapshot storageTaskSnapshot = await uploadTask.onComplete;
-      String imageURL = await storageTaskSnapshot.ref.getDownloadURL(); // Image URL from firebase's image file
-      String result = await saveUserDataToFirebaseDatabase(userId,userName,imageURL);
-      return result;
-    }catch(e) {
-      print(e.message);
-      return null;
-    }
-  }
 // About Firebase Database
   Future<String> saveUserDataToFirebaseDatabase(userId,userName,downloadUrl) async {
     DocumentSnapshot document;
@@ -51,7 +30,7 @@ class FirebaseController {
       final List<DocumentSnapshot> documents = result.docs;
       String myID = userId;
       if (documents.length == 0) {
-        await FirebaseFirestore.instance.collection('Users').doc(userId).set({
+        await FirebaseFirestore.instance.collection('users').doc(userId).set({
           'userId':userId,
           'name':userName,
           'userImageUrl':downloadUrl,
@@ -76,7 +55,7 @@ class FirebaseController {
     }
   }
   Future<void> updateUserToken(userID, token) async {
-    await FirebaseFirestore.instance.collection('users').doc(userID).set({
+    await FirebaseFirestore.instance.collection('Users').doc(userID).set({
       'FCMToken':token,
     });
   }

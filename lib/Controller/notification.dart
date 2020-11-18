@@ -56,12 +56,12 @@ class NotificationController {
         ));
       }
 
-      String userToken = document.data()['pushToken'];
+      String userToken = document.data()['FCMToken'];
       if (userToken == null) {
         _firebaseMessaging.getToken().then((val) async {
           print('Token: '+val);
           userToken = val;
-          String id = document.data()['uid'];
+          String id = document.data()['userId'];
           if(id != null) {
             updateUserToken(id, val);
           }

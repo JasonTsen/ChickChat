@@ -19,7 +19,7 @@ class _BottomTabState extends State<BottomTab>{
         children: [
 
           BottomTabNav(
-            imagePath: Icons.chat,
+            imagePath: Icons.chat_outlined,
             label: Text("Chat"),
             selected: _selectedTab == 0 ? true : false,
             onPressed: () {
@@ -27,82 +27,67 @@ class _BottomTabState extends State<BottomTab>{
             },
           ),
           BottomTabNav(
-            imagePath: Icons.announcement,
-            label: Text("Chat"),
+            imagePath: Icons.work_outline,
+            label: Text("Project"),
             selected: _selectedTab == 1 ? true : false,
             onPressed: () {
               widget.tabPressed(1);
             },
           ),
           BottomTabNav(
-            imagePath: Icons.file_upload,
-            label: Text("Chat"),
+            imagePath: Icons.event,
+            label: Text("Event"),
             selected: _selectedTab == 2 ? true : false,
             onPressed: () {
               widget.tabPressed(2);
             },
           ),
           BottomTabNav(
-              imagePath: Icons.add,
+              imagePath: Icons.announcement_outlined,
+            selected: _selectedTab == 3 ? true : false,
               onPressed: () {
-                showBottomSheet(
-                    context: context,
-                    builder: (context) => Container(
-
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color:  Colors.white,
-
-                        borderRadius: BorderRadius.circular(38.0),
-                      ),
-
-                      child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              BottomTabNav(
-                                imagePath: Icons.chat,
-                                label: Text("Chat"),
-                                selected: _selectedTab == 5 ? true : false,
-                                onPressed: () {
-                                  widget.tabPressed(5);
-                                },
-                              ),
-                              BottomTabNav(
-                                imagePath: Icons.announcement,
-                                label: Text("Chat"),
-                                selected: _selectedTab == 6 ? true : false,
-                                onPressed: () {
-                                  widget.tabPressed(6);
-                                },
-                              ),
-                              BottomTabNav(
-                                imagePath: Icons.file_upload,
-                                label: Text("Chat"),
-                                selected: _selectedTab == 7 ? true : false,
-                                onPressed: () {
-                                  widget.tabPressed(7);
-                                },
-                              ),
-                              BottomTabNav(
-                                imagePath: Icons.announcement,
-                                label: Text("Chat"),
-                                selected: _selectedTab == 8 ? true : false,
-                                onPressed: () {
-                                  widget.tabPressed(8);
-                                },
-                              ),
-                            ],
-                          ),
-                    )
-                );
+                widget.tabPressed(3);
               },
           ),
           BottomTabNav(
-            imagePath: Icons.logout,
+            imagePath: Icons.more_vert,
             selected: _selectedTab == 4 ? true : false,
             onPressed: () async{
-              Toast.show("You have logged out successfully!", context, duration: Toast.LENGTH_LONG);
-              await FirebaseAuth.instance.signOut();
+              showBottomSheet(
+                  context: context,
+                  builder: (context) => Container(
+
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color:  Colors.white,
+
+                      borderRadius: BorderRadius.circular(38.0),
+                    ),
+
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        BottomTabNav(
+                          imagePath: Icons.upload_sharp,
+                          label: Text("Chat"),
+                          selected: _selectedTab == 5 ? true : false,
+                          onPressed: () {
+                            widget.tabPressed(5);
+                          },
+                        ),
+                        BottomTabNav(
+                          imagePath: Icons.insert_drive_file_outlined,
+                          label: Text("Chat"),
+                          selected: _selectedTab == 6 ? true : false,
+                          onPressed: () {
+                            widget.tabPressed(6);
+                          },
+                        ),
+
+                      ],
+                    ),
+                  )
+              );
             },
           ),
         ],

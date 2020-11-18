@@ -51,10 +51,6 @@ class _StaffHomePageState extends State<StaffHomePage> {
               children: [
 
                 StaffChat(currentUserId: auth.currentUser.uid),
-                UserProfile(currentUserId: auth.currentUser.uid),
-                StaffChat(currentUserId: auth.currentUser.uid),
-                UserProfile(currentUserId: auth.currentUser.uid), StaffChat(currentUserId: auth.currentUser.uid),UserProfile(currentUserId: auth.currentUser.uid),
-                StaffChat(currentUserId: auth.currentUser.uid),UserProfile(currentUserId: auth.currentUser.uid),
               ],
             ),
           ),
