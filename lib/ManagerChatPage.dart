@@ -240,7 +240,7 @@ class ManagerChatState extends State<ManagerChat> {
 
           },
 
-          color: Colors.amber,
+          color: Design.greyColor,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
