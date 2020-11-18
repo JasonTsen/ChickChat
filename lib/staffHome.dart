@@ -1,3 +1,5 @@
+import 'package:chickchat/ProjectNAnnouncement/Announcement/announcement.dart';
+import 'package:chickchat/ProjectNAnnouncement/Project/project_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'StaffChatPage.dart';
@@ -45,9 +47,9 @@ class _StaffHomePageState extends State<StaffHomePage> {
                 });
               },
               children: [
-
                 StaffChat(currentUserId: auth.currentUser.uid),
-                StaffChat(currentUserId: auth.currentUser.uid),
+                ProjectList(),
+                AnnouncementScreen(),
               ],
             ),
           ),

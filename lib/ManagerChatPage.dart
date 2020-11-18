@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'Controller/notification.dart';
+import 'package:chickchat/Pattern/design.dart';
+import 'package:chickchat/Pattern/loading.dart';
 import 'UserNDoc/userProfile.dart';
-import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/design.dart';
-import 'file:///C:/Users/tsenj/chickchat/lib/Pattern/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -10,10 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
-import 'package:toast/toast.dart';
 
 import 'Controller/chatFirebase.dart';
-import 'Pattern/bottom_tabs.dart';
 import 'chatroom.dart';
 class ManagerChat extends StatefulWidget {
   final String currentUserId;
