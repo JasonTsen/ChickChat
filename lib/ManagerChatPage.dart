@@ -32,44 +32,9 @@ class ManagerChatState extends State<ManagerChat> {
   @override
   void initState() {
 
-    FirebaseController.instance.getUnreadMSGCount();
     super.initState();
   }
-  Future<int> getUnreadMSGCount([String peerUserID]) async{
-    try {
-      int unReadMSGCount = 0;
-      String targetID = '';
-      FirebaseAuth auth = FirebaseAuth.instance;
 
-      peerUserID == null ? targetID = (auth.currentUser.uid ?? 'NoId') : targetID = peerUserID;
-//      if (targetID != 'NoId') {
-      final QuerySnapshot chatListResult =
-      await FirebaseFirestore.instance.collection('Users').get();
-      final List<DocumentSnapshot> chatListDocuments = chatListResult.docs;
-      for(var data in chatListDocuments) {
-        final QuerySnapshot unReadMSGDocument = await FirebaseFirestore.instance.collection('chats').
-        doc(data['chatID']).
-        collection(data['chatID']).
-        where('idTo', isEqualTo: targetID).
-        where('isread', isEqualTo: false).
-        get();
-
-        final List<DocumentSnapshot> unReadMSGDocuments = unReadMSGDocument.docs;
-        unReadMSGCount = unReadMSGCount + unReadMSGDocuments.length;
-      }
-      print('unread MSG count is $unReadMSGCount');
-//      }
-      if (peerUserID == null) {
-        FlutterAppBadger.updateBadgeCount(unReadMSGCount);
-        return null;
-      }else {
-        return unReadMSGCount;
-      }
-
-    }catch(e) {
-      print(e.message);
-    }
-  }
   FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
@@ -77,6 +42,17 @@ class ManagerChatState extends State<ManagerChat> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
+          IconButton(
+            iconSize: 40,
+            padding: EdgeInsets.fromLTRB(
+                10,10,20,10
+            ),
+            icon: Icon(Icons.search)
+            ,
+            onPressed: () {
+
+            },
+          ),
           IconButton(
             iconSize: 40,
             padding: EdgeInsets.fromLTRB(
@@ -102,14 +78,8 @@ class ManagerChatState extends State<ManagerChat> {
 
       ),
 
-      body: VisibilityDetector(
-        key: Key("1"),
-        onVisibilityChanged: ((visibility) {
-          print('ChatList Visibility code is '+'${visibility.visibleFraction}');
-          if (visibility.visibleFraction == 1.0) {
-            FirebaseController.instance.getUnreadMSGCount();
-          }
-        }),
+      body: Container(
+
         child: Stack(
           children: <Widget>[
             // List

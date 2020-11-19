@@ -1,4 +1,5 @@
 import 'package:chickchat/Controller/constants.dart';
+import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_card.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_details.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_card.dart';
 import 'package:chickchat/models/Project.dart';

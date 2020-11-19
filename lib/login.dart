@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage>{
       }
       return e.message;
     }catch(e){
-      return e.toString();
+      return "";
     }
   }
   Future<void> _alertDialog(String error) async{
@@ -94,19 +94,14 @@ class _LoginPageState extends State<LoginPage>{
           width: double.infinity,
           child: Container(
             child: Column(
+
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  padding: EdgeInsets.only(
-                    top: 24.0,
-                  ),
-                ),
+                Image.asset("assets/images/chick.png"),
                 Column(
+
                   children: [
                     Container(
-                      padding: EdgeInsets.only(
-                      top: 24.0,
-                      ),
                       child: Text(
                         "ChickChat",
                         textAlign: TextAlign.center,
