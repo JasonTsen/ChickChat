@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chickchat/UserNDoc/editUser.dart';
 import 'package:toast/toast.dart';
 
 class UserProfile extends StatefulWidget {
@@ -192,13 +193,32 @@ class _UserProfileState extends State<UserProfile> {
                                     ),
                                     Align(
                                       alignment: Alignment.bottomCenter,
-                                      child: RaisedButton(
-                                        child: Text("Log out"),
-                                        onPressed: () async{
-                                          Toast.show("You have logged out successfully!", context, duration: Toast.LENGTH_LONG);
-                                          Navigator.pop(context);
-                                          await FirebaseAuth.instance.signOut();
-                                        },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left:15.0),
+                                        child: Row(
+                                          children: [
+                                            RaisedButton(
+                                              child: Text("Edit Profile"),
+                                              onPressed: (){
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => EditProfile(),
+                                                    )
+                                                );
+                                              },
+                                            ),
+                                            SizedBox(width: 10.0),
+                                            RaisedButton(
+                                              child: Text("Log out"),
+                                              onPressed: () async{
+                                                Toast.show("You have logged out successfully!", context, duration: Toast.LENGTH_LONG);
+                                                Navigator.pop(context);
+                                                await FirebaseAuth.instance.signOut();
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ]
