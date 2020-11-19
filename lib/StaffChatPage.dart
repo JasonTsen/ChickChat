@@ -1,17 +1,14 @@
-import 'dart:convert';
-import 'dart:io';
+
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'UserNDoc/userProfile.dart';
 import 'package:chickchat/Pattern/design.dart';
 import 'package:chickchat/Pattern/loading.dart';
+import 'UserNDoc/userProfile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_widgets/flutter_widgets.dart';
-import 'package:toast/toast.dart';
 
 import 'Controller/chatFirebase.dart';
 import 'chatroom.dart';
@@ -39,6 +36,7 @@ class StaffChatState extends State<StaffChat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
 
         actions: [
@@ -59,10 +57,12 @@ class StaffChatState extends State<StaffChat> {
           )
         ],
         automaticallyImplyLeading: false,
+
         title: Text(
           'Staff Page',
           style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),
         ),
+
       ),
 
       body: VisibilityDetector(
@@ -203,6 +203,7 @@ class StaffChatState extends State<StaffChat> {
   }
 
 }
+
 class Choice {
   const Choice({this.title, this.icon});
 

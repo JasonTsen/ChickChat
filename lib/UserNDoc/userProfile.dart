@@ -21,7 +21,6 @@ class _UserProfileState extends State<UserProfile> {
 
   final CollectionReference profileList = FirebaseFirestore.instance.collection('Users');
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

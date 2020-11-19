@@ -1,9 +1,10 @@
-import 'package:chickchat/myCalendarStaff.dart';
+import 'package:chickchat/ProjectNAnnouncement/Announcement/announcement.dart';
+import 'package:chickchat/ProjectNAnnouncement/Project/project_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'StaffChatPage.dart';
 import 'Pattern/bottom_tabs.dart';
-
+import 'UserNDoc/document.dart';
 class StaffHomePage extends StatefulWidget {
   final String currentUserId;
 
@@ -46,10 +47,10 @@ class _StaffHomePageState extends State<StaffHomePage> {
                 });
               },
               children: [
-
                 StaffChat(currentUserId: auth.currentUser.uid),
-                StaffChat(currentUserId: auth.currentUser.uid),
-                MyCalendarStaff(),
+                ProjectList(),
+                AnnouncementScreen(),
+                DocumentPage(),
               ],
             ),
           ),
