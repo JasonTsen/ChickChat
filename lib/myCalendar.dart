@@ -12,9 +12,10 @@ class MyCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Calendar',
+      debugShowCheckedModeBanner: false,
+      title: 'Calendar',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.amber,
       ),
       home: HomePage(),
       routes: {
@@ -55,7 +56,7 @@ Map<DateTime, List<dynamic>> _groupEvents(List<EventModel> events){
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Calendar'),
+        title: Text('Calendar', style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       body: StreamBuilder<List<EventModel>>(
           stream: eventDBS.streamList(),
@@ -76,7 +77,7 @@ Map<DateTime, List<dynamic>> _groupEvents(List<EventModel> events){
                     initialCalendarFormat: CalendarFormat.week,
                     calendarStyle: CalendarStyle(
                         canEventMarkersOverflow: true,
-                        todayColor: Colors.deepPurpleAccent,
+                        todayColor: Colors.grey,
                         selectedColor: Theme
                             .of(context)
                             .primaryColor,
@@ -87,7 +88,7 @@ Map<DateTime, List<dynamic>> _groupEvents(List<EventModel> events){
                     headerStyle: HeaderStyle(
                       centerHeaderTitle: true,
                       formatButtonDecoration: BoxDecoration(
-                        color: Colors.deepPurpleAccent,
+                        color: Colors.grey,
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       formatButtonTextStyle: TextStyle(color: Colors.white),
@@ -118,7 +119,7 @@ Map<DateTime, List<dynamic>> _groupEvents(List<EventModel> events){
                               margin: const EdgeInsets.all(4.0),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: Colors.deepPurpleAccent,
+                                  color: Colors.grey,
                                   borderRadius: BorderRadius.circular(20.0)),
                               child: Text(
                                 date.day.toString(),

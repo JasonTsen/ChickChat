@@ -12,9 +12,9 @@ class EventDetailsPage extends StatelessWidget {
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Schedule'),
+        title: Text('Schedule', style: TextStyle(fontWeight: FontWeight.bold),),
         actions: [
-          IconButton(icon: Icon(Icons.delete,color: Colors.white,size: 30,),
+          IconButton(icon: Icon(Icons.delete,color: Colors.black,size: 30,),
               onPressed: () => _deleteData(context, event.id),
           ),
         ],

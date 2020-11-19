@@ -1,23 +1,21 @@
-import 'package:chickchat/event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range/time_range.dart';
-import 'package:chickchat/event_firestore_service.dart';
 
-class AddEventPage extends StatefulWidget {
-  final EventModel note;
-  const AddEventPage({Key key, this.note}) : super(key: key);
+class AddOnlineApplication extends StatefulWidget {
+  const AddOnlineApplication({Key key}) : super(key: key);
 
   @override
   _AddOnlineApplicationForm createState() => _AddOnlineApplicationForm();
 }
 
-class _AddOnlineApplicationForm extends State<AddEventPage> {
+class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-  TextEditingController _title;
-  TextEditingController _description;
-  TextEditingController _location;
+  TextEditingController _username;
+  TextEditingController _reason;
+  TextEditingController _email;
+  TextEditingController _phoneNumber;
   DateTime _eventDate;
   String applicationFormId;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -33,9 +31,10 @@ class _AddOnlineApplicationForm extends State<AddEventPage> {
   @override
   void initState() {
     super.initState();
-    _title = TextEditingController(text: widget.note != null ? widget.note.title : "");
-    _description = TextEditingController(text:  widget.note != null ? widget.note.description : "");
-    _location = TextEditingController(text: widget.note != null ? widget.note.location: "");
+    _username = TextEditingController();
+    _reason = TextEditingController();
+    _email = TextEditingController();
+    _phoneNumber = TextEditingController();
     _eventDate = DateTime.now();
     _timeRange = _defaultTimeRange;
     processing = false;
@@ -45,7 +44,7 @@ class _AddOnlineApplicationForm extends State<AddEventPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.note != null ? "Edit Event" : "Create Event"),
+        title: Text("Online Application Form", style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       key: _key,
       body: Form(
@@ -57,25 +56,26 @@ class _AddOnlineApplicationForm extends State<AddEventPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: TextFormField(
-                  controller: _title,
+                  controller: _username,
                   validator: (value) =>
                   (value.isEmpty) ? "Please Enter Event title" : null,
                   style: style,
                   decoration: InputDecoration(
-                      labelText: "Event Title",
+                      labelText: "UserName",
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                 ),
               ),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: TextFormField(
-                  controller: _description,
+                  controller: _reason,
                   minLines: 3,
                   maxLines: 5,
                   validator: (value) =>
-                  (value.isEmpty) ? "Please Enter Event description" : null,
+                  (value.isEmpty) ? "" : null,
                   style: style,
                   decoration: InputDecoration(
                       labelText: "Event description",
@@ -86,7 +86,22 @@ class _AddOnlineApplicationForm extends State<AddEventPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: TextFormField(
-                  controller: _location,
+                  controller: _reason,
+                  minLines: 3,
+                  maxLines: 5,
+                  validator: (value) =>
+                  (value.isEmpty) ? "Reason...." : null,
+                  style: style,
+                  decoration: InputDecoration(
+                      labelText: "Event description",
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: TextFormField(
+                  controller: _email,
                   validator: (value) =>
                   (value.isEmpty) ? "Please Enter Event Location" : null,
                   style: style,
@@ -152,17 +167,6 @@ class _AddOnlineApplicationForm extends State<AddEventPage> {
                         setState(() {
                           processing = true;
                         });
-                        if(widget.note != null) {
-                          await eventDBS.updateData(widget.note.id,{
-                            "title": _title.text,
-                            "description": _description.text,
-                            "location": _location.text,
-                            "event_date": _eventDate,
-                            //widget.note.eventDate
-                            "event_timeStart": _timeRange.start.format(context),
-                            "event_timeEnd": _timeRange.end.format(context) ,
-                          });
-                        }else{
                           var id = auth.currentUser.uid;
                           var doc = FirebaseFirestore.instance.collection("applicationForm").doc(id).collection(id).doc(applicationFormId);
 
@@ -171,26 +175,15 @@ class _AddOnlineApplicationForm extends State<AddEventPage> {
                                 doc,
                                 {
                                   "id": doc.id,
-                                  "title": _title.text,
-                                  "description": _description.text,
-                                  "location": _location.text,
+                                  "username": _username.text,
+                                  "reason": _reason.text,
+                                  "email": _email.text,
                                   "eventDate": _eventDate,
                                   "eventTimeStart": _timeRange.start.format(context),
                                   "eventTimeEnd": _timeRange.end.format(context) ,
                                 }
                             );
                           });
-                          // ignore: deprecated_member_use
-                          // await eventDBS.createItem(EventModel(
-                          //     id: doc.id,
-                          //     title: _title.text,
-                          //     description: _description.text,
-                          //     location: _location.text,
-                          //     eventDate: _eventDate,
-                          //     eventTimeStart: _timeRange.start.format(context),
-                          //     eventTimeEnd: _timeRange.end.format(context) ,
-                          // ));
-                        }
                         Navigator.pop(context);
                         setState(() {
                           processing = false;
@@ -198,8 +191,7 @@ class _AddOnlineApplicationForm extends State<AddEventPage> {
                       }
                     },
                     child: Text(
-                      widget.note != null ? "Update Event" :
-                      "Create Event",
+                      "Apply Online Application Form",
                       style: style.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
@@ -217,8 +209,8 @@ class _AddOnlineApplicationForm extends State<AddEventPage> {
 
   @override
   void dispose() {
-    _title.dispose();
-    _description.dispose();
+    _username.dispose();
+    _reason.dispose();
     super.dispose();
   }
 }

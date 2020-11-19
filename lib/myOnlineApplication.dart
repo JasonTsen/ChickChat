@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:chickchat/addOnlineApplication.dart';
 import 'package:chickchat/onlineApplicationHistory.dart';
 
-void main() {
-  runApp(MaterialApp(
-    title: 'Online Application',
-    home: MyOnlineApplicationApp(),
-  ));
-}
-
 class MyOnlineApplicationApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,7 +26,7 @@ class MyOnlineApplicationApp extends StatelessWidget {
 
             RaisedButton(
               onPressed: () => {
-                //Navigator.push(context, new MaterialPageRoute(builder: (context) => AddOnlineApplication()))
+                Navigator.push(context, new MaterialPageRoute(builder: (context) => AddOnlineApplication()))
               },
               textColor: Colors.white,
               padding: const EdgeInsets.all(0),

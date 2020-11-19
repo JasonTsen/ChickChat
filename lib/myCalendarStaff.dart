@@ -12,9 +12,10 @@ class MyCalendarStaff extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'My Calendar',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.amber,
       ),
       home: HomePage(),
       routes: {
@@ -55,7 +56,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Calendar'),
+        title: Text('Calendar' ,style: TextStyle(fontWeight : FontWeight.bold,)),
       ),
       body: StreamBuilder<List<EventModel>>(
           stream: eventDBS.streamList(),
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                     initialCalendarFormat: CalendarFormat.week,
                     calendarStyle: CalendarStyle(
                         canEventMarkersOverflow: true,
-                        todayColor: Colors.deepPurpleAccent,
+                        todayColor: Colors.grey,
                         selectedColor: Theme
                             .of(context)
                             .primaryColor,
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                     headerStyle: HeaderStyle(
                       centerHeaderTitle: true,
                       formatButtonDecoration: BoxDecoration(
-                        color: Colors.deepPurpleAccent,
+                        color: Colors.grey,
                         borderRadius: BorderRadius.circular(20.0),
                       ),
                       formatButtonTextStyle: TextStyle(color: Colors.white),
@@ -118,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                               margin: const EdgeInsets.all(4.0),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
-                                  color: Colors.deepPurpleAccent,
+                                  color: Colors.grey,
                                   borderRadius: BorderRadius.circular(20.0)),
                               child: Text(
                                 date.day.toString(),
