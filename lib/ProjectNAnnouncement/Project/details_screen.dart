@@ -2,7 +2,6 @@ import 'package:chickchat/Controller/constants.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/body.dart';
 import 'package:chickchat/models/Project.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class DetailsScreen extends StatelessWidget {
   final Project project;

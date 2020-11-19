@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
 import 'package:pdftron_flutter/pdftron_flutter.dart';
 
 class PDFViewPage extends StatefulWidget {

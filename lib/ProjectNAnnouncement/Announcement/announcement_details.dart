@@ -4,7 +4,6 @@ import 'package:chickchat/models/Announcement.dart';
 import 'package:chickchat/models/Project.dart';
 import 'package:chickchat/models/Task.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class AnnouncementDetails extends StatelessWidget {
 

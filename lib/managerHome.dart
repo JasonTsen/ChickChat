@@ -1,13 +1,9 @@
-
 import 'package:chickchat/ManagerChatPage.dart';
 import 'package:chickchat/UserNDoc/document.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/project_list.dart';
-import 'package:chickchat/StaffChatPage.dart';
-import 'package:chickchat/models/Project.dart';
+import 'package:chickchat/ProjectNAnnouncement/Announcement/announcement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:chickchat/UserNDoc/userProfile.dart';
-
 import 'Pattern/bottom_tabs.dart';
 
 class ManagerHomePage extends StatefulWidget {
@@ -41,6 +37,7 @@ class _ManagerHomePageState extends State<ManagerHomePage> {
   FirebaseAuth auth = FirebaseAuth.instance;
     return Scaffold(
       body: Column(
+
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
@@ -53,11 +50,16 @@ class _ManagerHomePageState extends State<ManagerHomePage> {
               },
               children: [
                 ManagerChat(currentUserId: auth.currentUser.uid),
+                ProjectList(),
+                AnnouncementScreen(),
                 DocumentPage(),
               ],
             ),
           ),
+
           BottomTab(
+
+
             selectedTab: _selectedTab,
             tabPressed: (num) {
               _tabsPageController.animateToPage(
