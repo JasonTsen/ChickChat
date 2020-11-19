@@ -78,7 +78,7 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
                   (value.isEmpty) ? "" : null,
                   style: style,
                   decoration: InputDecoration(
-                      labelText: "Event description",
+                      labelText: "Form Type",
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                 ),
               ),
@@ -93,7 +93,7 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
                   (value.isEmpty) ? "Reason...." : null,
                   style: style,
                   decoration: InputDecoration(
-                      labelText: "Event description",
+                      labelText: "Reason...",
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                 ),
               ),
@@ -106,7 +106,7 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
                   (value.isEmpty) ? "Please Enter Event Location" : null,
                   style: style,
                   decoration: InputDecoration(
-                      labelText: "Event Location",
+                      labelText: "Email",
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
