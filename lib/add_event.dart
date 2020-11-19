@@ -1,4 +1,6 @@
 import 'package:chickchat/event.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:time_range/time_range.dart';
 import 'package:chickchat/event_firestore_service.dart';
@@ -17,6 +19,8 @@ class _AddEventPageState extends State<AddEventPage> {
   TextEditingController _description;
   TextEditingController _location;
   DateTime _eventDate;
+  String eventId;
+  FirebaseAuth auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
   final _defaultTimeRange = TimeRangeResult(
@@ -159,8 +163,12 @@ class _AddEventPageState extends State<AddEventPage> {
                             "event_timeEnd": _timeRange.end.format(context) ,
                           });
                         }else{
+                          var doc = FirebaseFirestore.instance.collection("events").doc(auth.currentUser.uid);
+                          var owner = auth.currentUser.displayName;
                           // ignore: deprecated_member_use
                           await eventDBS.createItem(EventModel(
+                              id: doc.id,
+                              creator: owner,
                               title: _title.text,
                               description: _description.text,
                               location: _location.text,

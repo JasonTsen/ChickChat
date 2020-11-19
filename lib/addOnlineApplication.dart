@@ -1,39 +1,43 @@
-import 'package:chickchat/onlineApplication.dart';
+import 'package:chickchat/event.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:chickchat/onlineApplication_firestore_service.dart';
+import 'package:time_range/time_range.dart';
+import 'package:chickchat/event_firestore_service.dart';
 
-class AddOnlineApplication extends StatefulWidget {
-  final OnlineApplicationModel form;
-  const AddOnlineApplication({Key key, this.form}) : super(key: key);
+class AddEventPage extends StatefulWidget {
+  final EventModel note;
+  const AddEventPage({Key key, this.note}) : super(key: key);
 
   @override
-  _AddOnlineApplicationPageState createState() => _AddOnlineApplicationPageState();
+  _AddOnlineApplicationForm createState() => _AddOnlineApplicationForm();
 }
 
-class _AddOnlineApplicationPageState extends State<AddOnlineApplication> {
+class _AddOnlineApplicationForm extends State<AddEventPage> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-  TextEditingController _userName;
-  TextEditingController _reason;
-  TextEditingController _email;
-  TextEditingController _phoneNumber;
-  DateTime _onlineApplicationDate;
-  DateTime _onlineApplicationTime;
-
+  TextEditingController _title;
+  TextEditingController _description;
+  TextEditingController _location;
+  DateTime _eventDate;
+  String applicationFormId;
+  FirebaseAuth auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
-
+  final _defaultTimeRange = TimeRangeResult(
+    TimeOfDay(hour: 8,minute: 00),
+    TimeOfDay(hour: 20,minute: 00),
+  );
+  TimeRangeResult _timeRange;
   bool processing;
 
   @override
   void initState() {
     super.initState();
-    _userName = TextEditingController(text: widget.form != null ? widget.form.userName : "");
-    _reason = TextEditingController(text:  widget.form != null ? widget.form.reason : "");
-    _email = TextEditingController(text: widget.form != null ? widget.form.email : "");
-    _phoneNumber = TextEditingController(text: widget.form != null ? widget.form.phoneNumber : "");
-    _onlineApplicationDate = DateTime(DateTime.now().day,DateTime.now().month,DateTime.now().year);
-    _onlineApplicationTime = DateTime(DateTime.now().hour,DateTime.now().minute);
-
+    _title = TextEditingController(text: widget.note != null ? widget.note.title : "");
+    _description = TextEditingController(text:  widget.note != null ? widget.note.description : "");
+    _location = TextEditingController(text: widget.note != null ? widget.note.location: "");
+    _eventDate = DateTime.now();
+    _timeRange = _defaultTimeRange;
     processing = false;
   }
 
@@ -41,7 +45,7 @@ class _AddOnlineApplicationPageState extends State<AddOnlineApplication> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Apply Online Application"),
+        title: Text(widget.note != null ? "Edit Event" : "Create Event"),
       ),
       key: _key,
       body: Form(
@@ -53,7 +57,7 @@ class _AddOnlineApplicationPageState extends State<AddOnlineApplication> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: TextFormField(
-                  controller: _userName,
+                  controller: _title,
                   validator: (value) =>
                   (value.isEmpty) ? "Please Enter Event title" : null,
                   style: style,
@@ -67,9 +71,9 @@ class _AddOnlineApplicationPageState extends State<AddOnlineApplication> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: TextFormField(
-                  controller: _reason,
+                  controller: _description,
                   minLines: 3,
-                  maxLines: 6,
+                  maxLines: 5,
                   validator: (value) =>
                   (value.isEmpty) ? "Please Enter Event description" : null,
                   style: style,
@@ -82,7 +86,7 @@ class _AddOnlineApplicationPageState extends State<AddOnlineApplication> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: TextFormField(
-                  controller: _email,
+                  controller: _location,
                   validator: (value) =>
                   (value.isEmpty) ? "Please Enter Event Location" : null,
                   style: style,
@@ -93,56 +97,45 @@ class _AddOnlineApplicationPageState extends State<AddOnlineApplication> {
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                 ),
               ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: TextFormField(
-                  controller: _email,
-                  validator: (value) =>
-                  (value.isEmpty) ? "Please Enter Event Location" : null,
-                  style: style,
-                  decoration: InputDecoration(
-                      labelText: "Event Location",
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: TextFormField(
-                  controller: _email,
-                  validator: (value) =>
-                  (value.isEmpty) ? "Please Enter Event Location" : null,
-                  style: style,
-                  decoration: InputDecoration(
-                      labelText: "Event Location",
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-                ),
-              ),
-
 
               const SizedBox(height: 10.0),
               ListTile(
                 title: Text("Date (YYYY-MM-DD)"),
-                subtitle: Text("${_onlineApplicationDate.day} - ${_onlineApplicationDate.month} - ${_onlineApplicationDate.year}"),
+                subtitle: Text("${_eventDate.year} - ${_eventDate.month} - ${_eventDate.day}"),
                 onTap: ()async{
-                  DateTime picked = await showDatePicker(context: context, initialDate: _onlineApplicationDate, firstDate: DateTime(_onlineApplicationDate.year-5), lastDate: DateTime(_onlineApplicationDate.year+5));
+                  DateTime picked = await showDatePicker(context: context, initialDate: _eventDate, firstDate: DateTime(_eventDate.year-5), lastDate: DateTime(_eventDate.year+5));
 
                   if(picked != null) {
                     setState(() {
-                      _onlineApplicationDate = picked;
+                      _eventDate = picked;
                     });
                   }
                 },
               ),
 
               const SizedBox(height: 10.0),
+              TimeRange(
+                fromTitle: Text('From', style: TextStyle(fontSize: 18,),),
+                toTitle: Text('To', style: TextStyle(fontSize: 18,),),
+                titlePadding: 20,
+                activeTextStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 22,),
+                activeBackgroundColor: Colors.blue,
+                backgroundColor: Colors.transparent,
+                firstTime: TimeOfDay(hour: 8,minute: 00),
+                lastTime: TimeOfDay(hour: 20,minute: 00),
+                initialRange: _timeRange,
+                timeStep: 10,
+                timeBlock: 30,
+                onRangeCompleted: (range) => setState(() => _timeRange = range),
+              ),
+
+
 
               SizedBox(height: 10.0),
+              if(_timeRange!=null)
+                Padding(padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  child: Text(' * Your Event Time Range is: ${_timeRange.start.format(context)} - ${_timeRange.end.format(context)}',style: TextStyle(color: Colors.lightGreen),),
+                ),
 
 
               processing
@@ -159,26 +152,44 @@ class _AddOnlineApplicationPageState extends State<AddOnlineApplication> {
                         setState(() {
                           processing = true;
                         });
-                        if(widget.form != null) {
-                          await onlineApplicationDBS.updateData(widget.form.id,{
-                            "userName": _userName.text,
-                            "description": _reason.text,
-                            "phoneNumber": _phoneNumber.text,
-                            "email": _email.text,
-                            //widget.form.eventDate
-                            "onlineApplicationDate ":DateTime.now() ,
-                            "onlineApplicationTime": DateTime.now(),
+                        if(widget.note != null) {
+                          await eventDBS.updateData(widget.note.id,{
+                            "title": _title.text,
+                            "description": _description.text,
+                            "location": _location.text,
+                            "event_date": _eventDate,
+                            //widget.note.eventDate
+                            "event_timeStart": _timeRange.start.format(context),
+                            "event_timeEnd": _timeRange.end.format(context) ,
                           });
                         }else{
+                          var id = auth.currentUser.uid;
+                          var doc = FirebaseFirestore.instance.collection("applicationForm").doc(id).collection(id).doc(applicationFormId);
+
+                          FirebaseFirestore.instance.runTransaction((transaction) async{
+                            transaction.set(
+                                doc,
+                                {
+                                  "id": doc.id,
+                                  "title": _title.text,
+                                  "description": _description.text,
+                                  "location": _location.text,
+                                  "eventDate": _eventDate,
+                                  "eventTimeStart": _timeRange.start.format(context),
+                                  "eventTimeEnd": _timeRange.end.format(context) ,
+                                }
+                            );
+                          });
                           // ignore: deprecated_member_use
-                          await onlineApplicationDBS.createItem(OnlineApplicationModel(
-                            userName: _userName.text,
-                            reason: _reason.text,
-                            email: _email.text,
-                            //eventDate: _eventDate,
-                           // eventTimeStart: _timeRange.start.format(context),
-                           // eventTimeEnd: _timeRange.end.format(context) ,
-                          ));
+                          // await eventDBS.createItem(EventModel(
+                          //     id: doc.id,
+                          //     title: _title.text,
+                          //     description: _description.text,
+                          //     location: _location.text,
+                          //     eventDate: _eventDate,
+                          //     eventTimeStart: _timeRange.start.format(context),
+                          //     eventTimeEnd: _timeRange.end.format(context) ,
+                          // ));
                         }
                         Navigator.pop(context);
                         setState(() {
@@ -187,7 +198,8 @@ class _AddOnlineApplicationPageState extends State<AddOnlineApplication> {
                       }
                     },
                     child: Text(
-                      "Apply",
+                      widget.note != null ? "Update Event" :
+                      "Create Event",
                       style: style.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
@@ -205,8 +217,8 @@ class _AddOnlineApplicationPageState extends State<AddOnlineApplication> {
 
   @override
   void dispose() {
-    _userName.dispose();
-    _reason.dispose();
+    _title.dispose();
+    _description.dispose();
     super.dispose();
   }
 }

@@ -107,7 +107,7 @@ class EventDetailsPage extends StatelessWidget {
               textColor: Colors.white,
               color: Colors.red[600],
               child: Text("Delete"),
-              onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage(),),result: true)
+              onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => MyCalendar(),),result: true)
             ),
 
             FlatButton(
