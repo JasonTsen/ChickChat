@@ -51,8 +51,10 @@ class _ManagerHomePageState extends State<ManagerHomePage> {
               children: [
                 ManagerChat(currentUserId: auth.currentUser.uid),
                 ProjectList(),
+                //khoo
                 AnnouncementScreen(),
                 DocumentPage(),
+                //khoo
               ],
             ),
           ),

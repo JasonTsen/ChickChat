@@ -49,8 +49,10 @@ class _StaffHomePageState extends State<StaffHomePage> {
               children: [
                 StaffChat(currentUserId: auth.currentUser.uid),
                 ProjectList(),
+                //khoo
                 AnnouncementScreen(),
                 DocumentPage(),
+                //khoo
               ],
             ),
           ),
