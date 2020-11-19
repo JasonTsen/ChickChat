@@ -2,8 +2,6 @@
 import 'package:chickchat/ManagerChatPage.dart';
 import 'package:chickchat/UserNDoc/document.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/project_list.dart';
-import 'file:///C:/Users/andyc/StudioProjects/ChickChat/lib/ProjectNAnnouncement/Announcement/announcement.dart';
-import 'file:///C:/Users/andyc/StudioProjects/ChickChat/lib/ProjectNAnnouncement/Project/project_screen.dart';
 import 'package:chickchat/StaffChatPage.dart';
 import 'package:chickchat/models/Project.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -55,6 +53,7 @@ class _ManagerHomePageState extends State<ManagerHomePage> {
               },
               children: [
                 ManagerChat(currentUserId: auth.currentUser.uid),
+                DocumentPage(),
               ],
             ),
           ),

@@ -1,6 +1,5 @@
 import 'package:chickchat/Controller/constants.dart';
 import 'package:chickchat/Pattern/design.dart';
-import 'file:///C:/Users/andyc/StudioProjects/ChickChat/lib/ProjectNAnnouncement/Announcement/announcement.dart';
 import 'package:chickchat/models/Announcement.dart';
 import 'package:chickchat/models/Project.dart';
 import 'package:chickchat/models/Task.dart';
