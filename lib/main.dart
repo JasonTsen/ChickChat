@@ -35,7 +35,7 @@ class App extends StatefulWidget{
 class AppState extends State<App>{
   Widget build(BuildContext context) {
     return SplashScreen(
-        seconds: 10,
+        seconds: 6,
         navigateAfterSeconds: LandingPage(),
         title: new Text('Welcome To ChickChat',
           style: new TextStyle(
@@ -43,7 +43,7 @@ class AppState extends State<App>{
               fontSize: 20.0
           ),),
         image: Image.asset("assets/images/chick.png"),
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.white,
         styleTextUnderTheLoader: new TextStyle(),
         photoSize: 100.0,
         loaderColor: Colors.amber
@@ -119,21 +119,14 @@ class LandingPageState extends State<LandingPage>{
                   return LoginPage();
                   }
 
-            } return Scaffold(
-                body: Center(
-                  child: Text("Connection to the app..."),
-                ),
-              );
+            } return Material(child: Center(
+                  child: CircularProgressIndicator(),),);
             },
 
           );
         }
-        return Scaffold(
-          body: Center(
-            child: Text("Connection to the app..."),
-
-          ),
-        );
+        return Material(child: Center(
+            child: CircularProgressIndicator(),),);
 
       },
     );
