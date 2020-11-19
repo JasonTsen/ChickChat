@@ -35,6 +35,7 @@ class _UserProfileState extends State<UserProfile> {
                         return Column(
                           children: <Widget>[
                             Padding(
+
                               padding: const EdgeInsets.only(top: 20,left: 20),
                               child: Align(
                                 alignment: Alignment.topLeft,
@@ -47,13 +48,16 @@ class _UserProfileState extends State<UserProfile> {
                                 ),
                               ),
                             ),
+
                             Container(
+
                               height: 600,
                               child: Stack(
                                   children: <Widget>[
                                     ListView(
                                       children: <Widget>[
                                         Column(
+
                                           crossAxisAlignment: CrossAxisAlignment.stretch,
                                           children: [
                                             Padding(

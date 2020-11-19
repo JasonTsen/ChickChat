@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'Controller/notification.dart';
+import 'package:splashscreen/splashscreen.dart';
 const bool kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -19,34 +19,54 @@ void main() {
 
 class MyApp extends StatelessWidget {
 
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(debugShowCheckedModeBanner: false,
       title: 'ChickChat',
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      home: LandingPage(),
+      home: App(),
     );
   }
 }
+class App extends StatefulWidget{
+  State<StatefulWidget> createState() => AppState();
+}
+class AppState extends State<App>{
+  Widget build(BuildContext context) {
+    return SplashScreen(
+        seconds: 10,
+        navigateAfterSeconds: LandingPage(),
+        title: new Text('Welcome To ChickChat',
+          style: new TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20.0
+          ),),
+        image: Image.asset("assets/images/chick.png"),
+        backgroundColor: Colors.amber,
+        styleTextUnderTheLoader: new TextStyle(),
+        photoSize: 100.0,
+        loaderColor: Colors.amber
+    );
+  }
+}
+
+
 class LandingPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => LandingPageState();
 
 }
 class LandingPageState extends State<LandingPage>{
+
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  @override
-  void initState() {
-    NotificationController.instance.takeFCMTokenWhenAppLaunch();
-    NotificationController.instance.initLocalNotification();
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder(
+
       future: _initialization,
       builder: (context, snapshot){
         if(snapshot.hasError){
@@ -119,4 +139,5 @@ class LandingPageState extends State<LandingPage>{
     );
   }
 }
+
 

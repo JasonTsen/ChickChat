@@ -52,7 +52,7 @@ class _BottomTabState extends State<BottomTab>{
             imagePath: Icons.more_vert,
             selected: _selectedTab == 4 ? true : false,
             onPressed: () async{
-              showBottomSheet(
+              showModalBottomSheet(
                   context: context,
                   builder: (context) => Container(
 

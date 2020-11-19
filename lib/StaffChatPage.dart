@@ -43,6 +43,17 @@ class StaffChatState extends State<StaffChat> {
           IconButton(
             iconSize: 40,
             padding: EdgeInsets.fromLTRB(
+                10,10,20,10
+            ),
+            icon: Icon(Icons.search)
+            ,
+            onPressed: () {
+
+            },
+          ),
+          IconButton(
+            iconSize: 40,
+            padding: EdgeInsets.fromLTRB(
               10,10,20,10
             ),
             icon: Icon(Icons.person)
@@ -65,14 +76,8 @@ class StaffChatState extends State<StaffChat> {
 
       ),
 
-      body: VisibilityDetector(
-        key: Key("1"),
-        onVisibilityChanged: ((visibility) {
-          print('ChatList Visibility code is '+'${visibility.visibleFraction}');
-          if (visibility.visibleFraction == 1.0) {
-            FirebaseController.instance.getUnreadMSGCount();
-          }
-        }),
+      body: Container(
+
         child: Stack(
           children: <Widget>[
             // List
