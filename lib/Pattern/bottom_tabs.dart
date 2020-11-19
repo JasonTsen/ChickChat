@@ -27,7 +27,6 @@ class _BottomTabState extends State<BottomTab>{
           ),
           BottomTabNav(
             imagePath: Icons.work_outline,
-            label: Text("Project"),
             selected: _selectedTab == 1 ? true : false,
             onPressed: () {
               widget.tabPressed(1);
@@ -35,7 +34,6 @@ class _BottomTabState extends State<BottomTab>{
           ),
           BottomTabNav(
             imagePath: Icons.event,
-            label: Text("Event"),
             selected: _selectedTab == 2 ? true : false,
             onPressed: () {
               widget.tabPressed(2);
@@ -50,7 +48,6 @@ class _BottomTabState extends State<BottomTab>{
           ),
           BottomTabNav(
             imagePath: Icons.more_vert,
-            selected: _selectedTab == 4 ? true : false,
             onPressed: () async{
               showModalBottomSheet(
                   context: context,
@@ -68,20 +65,20 @@ class _BottomTabState extends State<BottomTab>{
                       children: <Widget>[
                         BottomTabNav(
                           imagePath: CupertinoIcons.doc_text,
-                          label: Text("Chat"),
-                          selected: _selectedTab == 5 ? true : false,
+
+                          selected: _selectedTab == 4 ? true : false,
                           onPressed: () {
                             Navigator.pop(context);
-                            widget.tabPressed(5);
+                            widget.tabPressed(4);
                           },
                         ),
                         BottomTabNav(
                           imagePath: Icons.insert_drive_file_outlined,
                           label: Text("Chat"),
-                          selected: _selectedTab == 6 ? true : false,
+                          selected: _selectedTab == 5 ? true : false,
                           onPressed: () {
                             Navigator.pop(context);
-                            widget.tabPressed(6);
+                            widget.tabPressed(5);
                           },
                         ),
 
