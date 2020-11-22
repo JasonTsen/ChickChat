@@ -1,20 +1,16 @@
 import 'package:chickchat/Controller/constants.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_card.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_details.dart';
-import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_card.dart';
-import 'package:chickchat/models/Project.dart';
 import 'package:chickchat/models/Task.dart';
 import 'package:flutter/material.dart';
 
 class Description extends StatelessWidget {
   const Description({
     Key key,
-    @required this.product,
-    @required this.task,
+    @required this.id
   }) : super(key: key);
 
-  final Project product;
-  final Task task;
+  final String id;
 
   @override
   Widget build(BuildContext context) {

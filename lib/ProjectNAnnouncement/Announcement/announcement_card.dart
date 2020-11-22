@@ -1,17 +1,14 @@
 import 'package:chickchat/Controller/constants.dart';
-import 'package:chickchat/models/Announcement.dart';
 import 'package:chickchat/models/Task.dart';
 import 'package:flutter/material.dart';
 
 class AnnouncementCard extends StatelessWidget {
   final Task task;
   final Function press;
-  final Announcement announcement;
 
   const AnnouncementCard({
     Key key,
     this.task,
-    this.announcement,
     this.press,
   }) : super(key: key);
 
@@ -39,12 +36,12 @@ class AnnouncementCard extends StatelessWidget {
                 ],
               ),
               child: Hero(
-                tag: "${announcement.id}",
+                tag: "${"id"}",
                 child: new Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Expanded(
-                      child: Text(announcement.title, overflow: TextOverflow.ellipsis),
+                      child: Text("Title", overflow: TextOverflow.ellipsis),
                     ),
                     Spacer(),
                     Row(
@@ -56,18 +53,19 @@ class AnnouncementCard extends StatelessWidget {
                           child: Container(
                             alignment: Alignment.bottomRight,
                             width: 250,
-                            child: Text('sender: ' + announcement.sender, overflow: TextOverflow.ellipsis,style: new TextStyle(fontSize: 12)),
+                            child: Text('sender: ' + "sender", overflow: TextOverflow.ellipsis,style: new TextStyle(fontSize: 12)),
                           ),
                         ),
                       ],
                     ),
-                    /*Expanded(
+Expanded(
                       child: Container(
                         alignment: Alignment.bottomRight,
                         width: 250,
-                        child: Text('sender: ' + announcement.sender, overflow: TextOverflow.ellipsis,style: new TextStyle(fontSize: 12)),
+                        child: Text('sender: ' + "sender", overflow: TextOverflow.ellipsis,style: new TextStyle(fontSize: 12)),
                       ),
-                    )*/
+                    )
+
                   ],
                 ),
               ),
