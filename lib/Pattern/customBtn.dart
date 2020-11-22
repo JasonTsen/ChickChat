@@ -16,12 +16,12 @@ class CustomBtn extends StatelessWidget {
         height: 60.0,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: _outlineBtn ? Colors.transparent : Colors.black,
+          color: _outlineBtn ? Colors.transparent : Colors.amber,
           border: Border.all(
-            color: Colors.black,
+            color: Colors.amber,
             width: 2.0,
           ),
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(15.0),
         ),
         margin: EdgeInsets.symmetric(
           horizontal: 24.0,
@@ -36,8 +36,8 @@ class CustomBtn extends StatelessWidget {
                 text ?? "Text",
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: _outlineBtn ?  Colors.black : Colors.white,
-                  fontWeight: FontWeight.w600,
+                  color: _outlineBtn ?  Colors.black : Colors.black,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
             ),

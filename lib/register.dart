@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:toast/toast.dart';
 import 'Pattern/customBtn.dart';
@@ -17,6 +18,7 @@ class _RegisterState extends State<RegisterPage> {
   int selectedRad;
   File imageFile;
   String _uploadImgFile;
+  bool _registerLoad = false;
   final GlobalKey<FormState> _formKey = GlobalKey();
   final _picker = ImagePicker();
   Future  _openGallery() async{
@@ -82,11 +84,19 @@ class _RegisterState extends State<RegisterPage> {
       return "Invalid data entered!";
     }
   }
-  void validateAndSave() {
+  validateAndSave() {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
       print('Form is valid');
-      _submitReg();
+      if(selectedRad==0){
+        return Toast.show("Please select your role", context, duration: Toast.LENGTH_LONG);
+      }else if(imageFile == null){
+        return Toast.show("Please select an image", context, duration: Toast.LENGTH_LONG);
+      }
+      else{
+        _submitReg();
+      }
+
     } else {
       print('Form is invalid');
     }
@@ -128,7 +138,7 @@ class _RegisterState extends State<RegisterPage> {
       }
     );
   }
-  bool _registerLoad = false;
+
  FocusNode _passwordFocus;
   @override
   void initState(){
@@ -189,6 +199,7 @@ class _RegisterState extends State<RegisterPage> {
                                   ):Image.asset(
                                     "assets/images/user_profile.png",
                                     fit: BoxFit.fill,
+
                                   ),
 
                                 )
@@ -247,16 +258,18 @@ class _RegisterState extends State<RegisterPage> {
                         onChanged: (value){
                           _name = value;
                         },
+
                       validator: validateName,
-                        hintText: "E.g Ali Chong",
+                        hintText: "Name",
                         textInputAction: TextInputAction.next,
                     ),
                     CustomInput(
                         onChanged: (value){
                           _email = value;
                         },
+
                         validator: validateEmail,
-                        hintText: "E.g ali@gmail.com",
+                        hintText: "Email",
                         textInputAction: TextInputAction.next,
                         onSubmitted: (value){
                           _passwordFocus.requestFocus();
@@ -267,7 +280,7 @@ class _RegisterState extends State<RegisterPage> {
                           _password = value;
                         },
                       validator: validatePassword,
-                        hintText: "E.g Abc123",
+                        hintText: "Password",
 
                       focusNode: _passwordFocus,
                       textInputAction: TextInputAction.next,
@@ -278,14 +291,16 @@ class _RegisterState extends State<RegisterPage> {
                         onChanged: (value){
                           _phone = value;
                         },
+
                       validator: validateMobile,
-                        hintText: "E.g 0128776654",
+                        hintText: "Phone No.",
 
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Radio(
+
                             activeColor: Colors.black,
                             value: 1,
                             groupValue: selectedRad,
@@ -331,34 +346,41 @@ class _RegisterState extends State<RegisterPage> {
     );
   }
   String validateName(String value) {
-    if (value.length < 3)
-      return 'Name must be more than 2 character';
-    else
+    String patttern = r'[a-zA-Z]+|\s';
+    RegExp regExp = new RegExp(patttern);
+    if(!regExp.hasMatch(value)){
+      return 'Enter only letters';
+    }
+    else{
       return null;
+    }
+
   }
   String validateMobile(String value) {
-    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = new RegExp(pattern);
+    String patttern = r'(^(?:[+0]9)?[0-9]{10,11}$)';
+    RegExp regExp = new RegExp(patttern);
     if (value.length == 0) {
       return 'Please enter mobile number';
     }
     else if (!regExp.hasMatch(value)) {
       return 'Please enter valid mobile number';
     }
-    return null;
+    else {
+      return null;
+    }
   }
   String validatePassword(String value){
     Pattern pattern =
         r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
-      return 'Contain at least *one letter, *one number\n and *longer than six characters.';
+      return 'Contain atleast *one letter, *one number\n and *longer than six characters.';
     else
       return null;
   }
   String validateEmail(String value) {
     Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
       return 'Enter Valid Email';

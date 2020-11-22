@@ -7,10 +7,11 @@ class CustomInput extends StatelessWidget {
   final Function(String) onSubmitted;
   final Function(String) validator;
   final Function(String) onSaved;
+  final List inputFormatters;
   final FocusNode focusNode;
   final bool isPassField;
   final TextInputAction textInputAction;
-  CustomInput({this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction, this.isPassField, this.validator, this.onSaved});
+  CustomInput({this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction, this.isPassField, this.validator, this.onSaved, this.inputFormatters});
   @override
   Widget build(BuildContext context) {
     bool _isPassField = isPassField ?? false;
