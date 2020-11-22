@@ -1,4 +1,4 @@
-import 'package:chickchat/ManagerChatPage.dart';
+import 'ManagerChatPage.dart';
 import 'package:chickchat/UserNDoc/document.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/project_list.dart';
 import 'package:chickchat/ProjectNAnnouncement/Announcement/announcement.dart';

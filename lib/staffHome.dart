@@ -56,7 +56,6 @@ class _StaffHomePageState extends State<StaffHomePage> {
                 AnnouncementScreen(),
                 DocumentPage(),
                 MyOnlineApplicationApp(),
-
               ],
             ),
           ),

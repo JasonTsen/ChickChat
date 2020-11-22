@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
+
 const bool kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 Future<void> main() async {
   FlutterError.onError = (FlutterErrorDetails details) {
@@ -85,7 +86,7 @@ class LandingPageState extends State<LandingPage>{
               User _user = snapshot.data;
 
               if (snapshot.connectionState == ConnectionState.active){
-                print(snapshot);
+                // print(snapshot);
                 if (_user!= null) {
                   return StreamBuilder<QuerySnapshot>(
                       stream:
