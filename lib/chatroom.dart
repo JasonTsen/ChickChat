@@ -406,7 +406,6 @@ class ChatScreenState extends State<ChatScreen> {
                   ),
                 ],
               ),
-
               // Time
               isLastMessageLeft(index)
                   ? Container(

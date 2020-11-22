@@ -83,6 +83,16 @@ class _BottomTabState extends State<BottomTab>{
                           },
                         ),
 
+                        BottomTabNav(
+                          imagePath: Icons.info_outline,
+                          label: Text("Chat"),
+                          selected: _selectedTab == 6 ? true : false,
+                          onPressed: () {
+                            Navigator.pop(context);
+                            widget.tabPressed(6);
+                          },
+                        ),
+
                       ],
                     ),
                   )

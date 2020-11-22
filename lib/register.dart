@@ -332,13 +332,13 @@ class _RegisterState extends State<RegisterPage> {
   }
   String validateName(String value) {
     if (value.length < 3)
-      return 'Name must be more than 2 charater';
+      return 'Name must be more than 2 character';
     else
       return null;
   }
   String validateMobile(String value) {
-    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-    RegExp regExp = new RegExp(patttern);
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
       return 'Please enter mobile number';
     }
@@ -352,7 +352,7 @@ class _RegisterState extends State<RegisterPage> {
         r'^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$';
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
-      return 'Contain atleast *one letter, *one number\n and *longer than six characters.';
+      return 'Contain at least *one letter, *one number\n and *longer than six characters.';
     else
       return null;
   }

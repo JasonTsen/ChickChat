@@ -1,37 +1,72 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server/gmail.dart';
+import 'package:mailer/smtp_server.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
-class AddOnlineApplication extends StatefulWidget {
-  const AddOnlineApplication({Key key}) : super(key: key);
-
+class AboutUs extends StatelessWidget {
   @override
-  _AddOnlineApplicationForm createState() => _AddOnlineApplicationForm();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('About Us'),
+        actions: [
+          IconButton(icon: Icon(Icons.warning_amber_rounded,color: Colors.black,size: 30,),
+            onPressed: () =>  showDialog(
+              context: context,
+              builder: (context) => ReportBugs(),
+            ),
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+    padding: const EdgeInsets.all(20.0),
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: <Widget>[
+
+      Text("ChickChat Application Version 1.0", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+      SizedBox(height: 20.0),
+      Text("ChickChat Application Development Team",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+      SizedBox(height: 6.0),
+      Text("Tsen Jing Sheng\nKhoo Teck Wei\nAndy Chung Jack Vui\nVoo Kee Yuen",style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
+      SizedBox(height: 10.0),
+      //Dear student if you continue develop your system you just copy the above Text code and past at the below to continue VV and change the application version and put your name.
+      //let continue don't worry it is scroll view
+    ],
+    ),
+    ),
+    );
+  }
 }
 
-class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
+class ReportBugs extends StatefulWidget {
+  const ReportBugs({Key key}) : super(key: key);
+
+  @override
+  _ReportBugs createState() => _ReportBugs();
+}
+
+class _ReportBugs extends State<ReportBugs> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-  TextEditingController _reason;
-  String _applyDate;
+  TextEditingController _bugsProblemFacingReason;
+  String _reportDate;
   String applicationFormId;
-  String _formType;
+  String _bugsProblem;
   FirebaseAuth auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
   final _key = GlobalKey<ScaffoldState>();
   bool processing;
-
+  String password;
   @override
   void initState() {
     super.initState();
-    _formType = '';
-    _reason = TextEditingController();
-    _applyDate = DateTime.now().millisecondsSinceEpoch.toString();
+    _bugsProblem = '';
+    _bugsProblemFacingReason = TextEditingController();
+    _reportDate = DateTime.now().millisecondsSinceEpoch.toString();
     processing = false;
   }
 
@@ -39,7 +74,7 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Online Application Form", style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text("Bugs Report", style: TextStyle(fontWeight: FontWeight.bold),),
       ),
       key: _key,
       body: Form(
@@ -49,51 +84,57 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
           child: ListView(
             children: <Widget>[
               const SizedBox(height: 10.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text(auth.currentUser.displayName,textAlign: TextAlign.center,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
-              ),
-
-              const SizedBox(height: 10.0),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Text(auth.currentUser.email,textAlign: TextAlign.center,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
-              ),
 
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
 
                 child: Container(
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
-                  color: Colors.transparent,
+                    color: Colors.transparent,
                   ),
                   child: DropDownFormField(
-                    titleText: 'Form Types',
-                    hintText: ' -- Select the Form Types -- ',
+                    titleText: 'Bugs Problem',
+                    hintText: ' -- Select the Problem -- ',
                     contentPadding: EdgeInsets.all(10.0),
-                    value: _formType,
+                    value: _bugsProblem,
                     onSaved: (value){
                       setState(() {
-                        _formType = value;
+                        _bugsProblem = value;
                       });
                     },
                     onChanged: (value){
                       setState(() {
-                        _formType = value;
+                        _bugsProblem = value;
                       });
                     },
                     dataSource: [
                       {
-                        "display" : "Running",
-                        "value" : "Running",
+                        "display" : "Chatting Problem",
+                        "value" : "Chatting Problem",
                       },
                       {
-                        "display" : "Climbing",
-                        "value" : "Climbing",
+                        "display" : "Calendar Problem",
+                        "value" : "Calendar Problem",
+                      },
+                      {
+                        "display" : "Document Upload Problem",
+                        "value" : "Document Upload Problem",
+                      },
+                      {
+                        "display" : "Online Application Problem",
+                        "value" : "Online Application Problem",
+                      },
+                      {
+                        "display" : "User Profile Problem",
+                        "value" : "User Profile Problem",
+                      },
+                      {
+                        "display" : "Others...",
+                        "value" : "Others...",
                       },
                     ],
                     validator: (value) =>
-                    (_formType.isEmpty) ? "Please Select your Form Type" : null,
+                    (_bugsProblem.isEmpty) ? "Please choose the bugs problem" : null,
                     textField: 'display',
                     valueField: 'value',
                   ),
@@ -103,34 +144,22 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: TextFormField(
-                  controller: _reason,
+                  controller: _bugsProblemFacingReason,
                   minLines: 3,
                   maxLines: 5,
                   validator: (value) =>
-                  (value.isEmpty) ? "Please fill in your reason" : null,
+                  (value.isEmpty) ? "Please Fill In what problem did you facing" : null,
                   style: style,
                   // ignore: deprecated_member_use
                   inputFormatters: [WhitelistingTextInputFormatter(RegExp(r"[a-zA-Z0-9?!/*-+|\s]"))],
                   decoration: InputDecoration(
-                      labelText: "Reason...",
+                      labelText: "Tell Us the Bugs Problem You facing....",
                       fillColor: Colors.grey,
                       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
                 ),
               ),
 
               const SizedBox(height: 10.0),
-              ListTile(
-                //title: Text("Date Apply: ${_applyDate.year} - ${_applyDate.month} - ${_applyDate.day} \nTime Apply: ${_applyDate.hour}:${_applyDate.minute}",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                // onTap: ()async{
-                //   DateTime picked = await showDatePicker(context: context, initialDate: _eventDate, firstDate: DateTime(_eventDate.year-5), lastDate: DateTime(_eventDate.year+5));
-                //
-                //   if(picked != null) {
-                //     setState(() {
-                //       _eventDate = picked;
-                //     });
-                //   }
-                // },
-              ),
 
               const SizedBox(height: 10.0),
 
@@ -150,43 +179,45 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
                         setState(() {
                           processing = true;
                         });
-                          var id = auth.currentUser.uid;
-                          var mail = auth.currentUser.email;
-                          var username = auth.currentUser.displayName;
-                          var doc = FirebaseFirestore.instance.collection("applicationForm").doc(id).collection(id).doc(applicationFormId);
+                        var id = auth.currentUser.uid;
+                        var mail = auth.currentUser.email;
+                        var username = auth.currentUser.displayName;
+                        var doc = FirebaseFirestore.instance.collection("bugsReport").doc(id).collection(id).doc(applicationFormId);
 
-                          FirebaseFirestore.instance.runTransaction((transaction) async{
-                            transaction.set(
-                                doc,
-                                {
-                                  "id": doc.id,
-                                  "username": username,
-                                  "formType": _formType,
-                                  "reason": _reason.text,
-                                  "email": mail,
-                                  "applyDate": _applyDate,
-                                }
-                            );
-                          });
-                        sendApplicationForm();
+                        FirebaseFirestore.instance.runTransaction((transaction) async{
+                          transaction.set(
+                              doc,
+                              {
+                                "id": doc.id,
+                                "username": username,
+                                "bugsProblem": _bugsProblem,
+                                "descriptionOfBugsProblem": _bugsProblemFacingReason.text,
+                                "email": mail,
+                                "applyDate": _reportDate,
+                              }
+                          );
+                        });
+
+                        sendBugsReports();
                         Navigator.pop(context);
                         setState(() {
                           processing = false;
                         });
                       }
+
                       Fluttertoast.showToast(
-                        msg: "Send Successfully",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.SNACKBAR,
-                        timeInSecForIosWeb: 10,
-                        backgroundColor: Colors.black45,
-                        textColor: Colors.white,
-                        fontSize: 16.0,
+                          msg: "Your Report has been received and is now tracked, Thank you for your help",
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 10,
+                          backgroundColor: Colors.black45,
+                          textColor: Colors.white,
+                          fontSize: 16.0,
 
                       );
                     },
                     child: Text(
-                      "Apply Online Application Form",
+                      "Send Report",
                       style: style.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
@@ -200,30 +231,29 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
         ),
       ),
     );
-
   }
 
   @override
   void dispose() {
-    _reason.dispose();
+    _bugsProblemFacingReason.dispose();
     super.dispose();
   }
 
-  sendApplicationForm() async {
+  sendBugsReports() async {
     String username = 'khootw-sm17@student.tarc.edu.my';
     String password = 'k980203125441';
-    // ignore: deprecated_member_use
-    final smtpServer = gmail(username, password);
-    // Create our message.
-    final message = Message()
+        // ignore: deprecated_member_use
+        final smtpServer = gmail(username, password);
+        // Create our message.
+        final message = Message()
 
       ..from = Address(username, auth.currentUser.displayName)
       ..recipients.add('kennyzai29@gmail.com')
       ..ccRecipients.addAll(['sjtsen98@gmail.com', 'andycjv-sm17@student.tarc.edu.my'])
       ..bccRecipients.add(Address('andycjv-sm17@student.tarc.edu.my'))
-      ..subject = 'Applying ${_formType}  ${DateTime.now()}'
+      ..subject = 'Bugs Reporting 😀  ${DateTime.now()}'
       ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-      ..html =  "<h3>${_formType}</h3> <p>Greetings, i am applying for the ${_formType}. My reason to apply this Application form because : ${_reason.text}</p>";
+      ..html =  "<h3>${_bugsProblem}</h3> <p>${_bugsProblemFacingReason.text}</p>";
 
     try {
       final sendReport = await send(message, smtpServer);
@@ -254,6 +284,7 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
       ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
       ..text = 'This is the plain text.\nThis is line 2 of the text part.'
       ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+
     final sendReport2 = await send(equivalentMessage, smtpServer);
 
     // Sending multiple messages with the same connection
@@ -272,3 +303,5 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
 
   }
 }
+
+
