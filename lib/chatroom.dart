@@ -1,19 +1,14 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chickchat/Pattern/design.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:chickchat/Pattern/design.dart';
-import 'Pattern/design.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-
 import 'package:toast/toast.dart';
-
+import 'package:chickchat/Pattern/design.dart';
 import 'Pattern/chat_photo.dart';
 import 'Pattern/loading.dart';
 
@@ -28,11 +23,46 @@ class Chat extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          peerName.toString(),
-          style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),
+        title: Row(
+          children: [
+            Material(
+              child: peerAvatar!= null
+                  ? CachedNetworkImage(
+                placeholder: (context, url) =>
+                    Container(
+                      child: CircularProgressIndicator(
+                        strokeWidth: 1.0,
+                        valueColor:
+                        AlwaysStoppedAnimation<Color>(Colors.amber),
+                      ),
+                      width: 50.0,
+                      height: 50.0,
+                      padding: EdgeInsets.all(15.0),
+                    ),
+                imageUrl: peerAvatar,
+                width: 50.0,
+                height: 50.0,
+                fit: BoxFit.cover,
+              )
+                  : Icon(
+                Icons.account_circle,
+                size: 50.0,
+                color: Colors.grey,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(25.0)),
+              clipBehavior: Clip.hardEdge,
+            ),
+            SizedBox(width: 10,),
+            Text(
+              peerName.toString(),
+              style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
+
+
       ),
+
       body: ChatScreen(
         peerId: peerId,
         peerAvatar: peerAvatar,
@@ -122,8 +152,8 @@ class ChatScreenState extends State<ChatScreen> {
 
   readLocal() async {
       id = auth.currentUser.uid;
-      print(id);
-      print(peerId);
+      // print(id);
+      // print(peerId);
       if (id.hashCode <= peerId.hashCode) {
         chatId = '$id-$peerId';
       } else {
@@ -207,6 +237,7 @@ class ChatScreenState extends State<ChatScreen> {
   }
 
   Widget buildItem(int index, DocumentSnapshot document) {
+
     if (document.data()['idFrom'] == id) {
       // Right (my message)
 
@@ -214,21 +245,51 @@ class ChatScreenState extends State<ChatScreen> {
         onLongPress: (){
 
           //Delete Function
-
-          showMenu(
-            context: context,
-            position: RelativeRect.fromLTRB(500, 500, 500, 500),
-            items: [
-              PopupMenuItem(
-                child: GestureDetector(
-                    onTap: (){
-                      FirebaseFirestore.instance.collection("chats").doc(chatId)
-                          .collection(chatId).doc(document.data()['messageID']).delete();
-                    },
-                    child: Text("Delete"))
-              ),
+          Widget cancelButton = FlatButton(
+            child: Text("Cancel"),
+            onPressed:  () {
+              Navigator.pop(context);
+            },
+          );
+          Widget continueButton = FlatButton(
+            child: Text("Delete"),
+            onPressed:  () {
+              FirebaseFirestore.instance.collection("chats").doc(chatId)
+                  .collection(chatId).doc(document.data()['messageID']).delete();
+              Toast.show("You have deleted a message", context, duration: Toast.LENGTH_LONG);
+              Navigator.pop(context);
+            },
+          );
+          // set up the AlertDialog
+          AlertDialog alert = AlertDialog(
+            content: Text("Delete message?"),
+            actions: [
+              cancelButton,
+              continueButton,
             ],
           );
+          // show the dialog
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return alert;
+            },
+          );
+          // showMenu(
+          //   context: context,
+          //   position: RelativeRect.fromLTRB(500, 500, 500, 500),
+          //   items: [
+          //     PopupMenuItem(
+          //       child: GestureDetector(
+          //           onTap: (){
+          //               // set up the buttons
+          //
+          //
+          //
+          //           },)
+          //     ),
+          //   ],
+          // );
         },
         child: Row(
           children: <Widget>[
@@ -406,7 +467,6 @@ class ChatScreenState extends State<ChatScreen> {
                   ),
                 ],
               ),
-
               // Time
               isLastMessageLeft(index)
                   ? Container(

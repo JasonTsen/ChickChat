@@ -1,6 +1,6 @@
 # chickchat
 
-A new Flutter application.
+A Flutter Application that allow users to chat with another users. Only managers are able to create,delete,and update the calendar event. Everyvone can view the event that create by the manager. This Flutter Application also allow users to upload and retrieve the documents. So that, the users can upload the documents and download it anywhere any time. It also allow user to send online application form to the HR department and also to report the bugs to the development team.
 
 ## Getting Started
 

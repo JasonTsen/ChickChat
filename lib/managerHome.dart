@@ -1,7 +1,8 @@
-import 'package:chickchat/ManagerChatPage.dart';
+import 'ManagerChatPage.dart';
 import 'package:chickchat/UserNDoc/document.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/project_list.dart';
 import 'package:chickchat/ProjectNAnnouncement/Announcement/announcement.dart';
+import 'package:chickchat/aboutUs.dart';
 import 'package:chickchat/myCalendar.dart';
 import 'package:chickchat/myOnlineApplication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,6 +58,8 @@ class _ManagerHomePageState extends State<ManagerHomePage> {
                 AnnouncementScreen(),
                 DocumentPage(),
                 MyOnlineApplicationApp(),
+                AboutUs()
+
               ],
             ),
           ),

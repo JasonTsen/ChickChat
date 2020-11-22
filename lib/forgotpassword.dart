@@ -4,14 +4,14 @@ import 'package:toast/toast.dart';
 import 'Pattern/customBtn.dart';
 import 'Pattern/customInput.dart';
 import 'Pattern/design.dart';
-class ForgetPassword extends StatefulWidget {
+class ForgotPassword extends StatefulWidget {
   @override
-  _ForgetPasswordState createState() => _ForgetPasswordState();
+  _ForgotPasswordState createState() => _ForgotPasswordState();
 }
 FirebaseAuth auth = FirebaseAuth.instance;
 
 
-class _ForgetPasswordState extends State<ForgetPassword> {
+class _ForgotPasswordState extends State<ForgotPassword> {
   String _email;
   bool _submitLoad = false;
 
@@ -52,25 +52,29 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         }
     );
   }
-
-  final GlobalKey<FormState> _formKey = GlobalKey();
-  validateAndSave() async{
-    final FormState form = _formKey.currentState;
+  _submitForgot() async{
     setState(() {
       _submitLoad = true;
     });
     String _validateAccount = await resetPassword();
-    if (form.validate()) {
-
-      print('Form is valid');
-      Toast.show("The reset link is sent to your email!", context, duration: Toast.LENGTH_LONG);
-      Navigator.pop(context);
-    } else {
-      Toast.show("Invalid Email", context);
-      print('Form is invalid');
+    if(_validateAccount != null){
+      _alertDialog(_validateAccount);
       setState(() {
         _submitLoad = false;
       });
+    }else{
+      Toast.show("The reset link is sent to your email!", context, duration: Toast.LENGTH_LONG);
+      Navigator.pop(context);
+    }
+  }
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  void validateAndSave() async{
+    final FormState form = _formKey.currentState;
+    if (form.validate()) {
+      print('Form is valid');
+      _submitForgot();
+    } else {
+      print('Form is invalid');
     }
 
    /*  */
@@ -95,7 +99,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   top: 24.0,
                 ),
                 child: Text(
-                  "Forget Password",
+                  "Forgot Password",
                   textAlign: TextAlign.center,
                   style: Design.boldHeading,
                 ),
@@ -107,6 +111,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                     onChanged: (value){
                         _email = value;
                     },
+
                     hintText: "Enter your email...",
                   ),
                   CustomBtn(
@@ -129,7 +134,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   }
   String validateEmail(String value) {
     Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
       return 'Enter Valid Email';

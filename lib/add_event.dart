@@ -2,6 +2,8 @@ import 'package:chickchat/event.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:time_range/time_range.dart';
 import 'package:chickchat/event_firestore_service.dart';
 
@@ -87,6 +89,8 @@ class _AddEventPageState extends State<AddEventPage> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: TextFormField(
                   controller: _location,
+                  // ignore: deprecated_member_use
+                  inputFormatters: [WhitelistingTextInputFormatter(RegExp(r"[a-zA-Z0-9?!/*-+&()|\s]"))],
                   validator: (value) =>
                   (value.isEmpty) ? "Please Enter Event Location" : null,
                   style: style,
@@ -98,9 +102,9 @@ class _AddEventPageState extends State<AddEventPage> {
                 ),
               ),
 
-              const SizedBox(height: 10.0),
+            //  const SizedBox(height: 10.0),
               ListTile(
-                title: Text("Date (YYYY-MM-DD)"),
+                title: Text("Date (YYYY - MM - DD)"),
                 subtitle: Text("${_eventDate.year} - ${_eventDate.month} - ${_eventDate.day}"),
                 onTap: ()async{
                   DateTime picked = await showDatePicker(context: context, initialDate: _eventDate, firstDate: DateTime(_eventDate.year-5), lastDate: DateTime(_eventDate.year+5));
@@ -113,7 +117,7 @@ class _AddEventPageState extends State<AddEventPage> {
                 },
               ),
 
-              const SizedBox(height: 10.0),
+              //const SizedBox(height: 10.0),
               TimeRange(
                   fromTitle: Text('From', style: TextStyle(fontSize: 18,),),
                   toTitle: Text('To', style: TextStyle(fontSize: 18,),),
@@ -129,9 +133,7 @@ class _AddEventPageState extends State<AddEventPage> {
                   onRangeCompleted: (range) => setState(() => _timeRange = range),
               ),
 
-
-
-              SizedBox(height: 10.0),
+              //SizedBox(height: 10.0),
               if(_timeRange!=null)
           Padding(padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: Text(' * Your Event Time Range is: ${_timeRange.start.format(context)} - ${_timeRange.end.format(context)}',style: TextStyle(color: Colors.lightGreen),),
@@ -182,6 +184,16 @@ class _AddEventPageState extends State<AddEventPage> {
                           processing = false;
                         });
                       }
+                      Fluttertoast.showToast(
+                        msg: "Save Successfully",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.SNACKBAR,
+                        timeInSecForIosWeb: 10,
+                        backgroundColor: Colors.black45,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+
+                      );
                     },
                     child: Text(
                       widget.note != null ? "Update Event" :
@@ -193,7 +205,7 @@ class _AddEventPageState extends State<AddEventPage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 20.0),
+              const SizedBox(height: 10.0),
             ],
           ),
         ),

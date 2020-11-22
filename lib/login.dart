@@ -1,7 +1,7 @@
 import 'package:chickchat/Pattern/customBtn.dart';
 import 'package:chickchat/Pattern/customInput.dart';
 import 'package:chickchat/register.dart';
-import 'package:chickchat/forgetpassword.dart';
+import 'package:chickchat/forgotpassword.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +18,7 @@ class _LoginPageState extends State<LoginPage>{
   String _email;
   String _password;
   FocusNode _passwordFocus;
+
   Future<String> _login() async{
     try{
       await FirebaseAuth
@@ -31,9 +32,9 @@ class _LoginPageState extends State<LoginPage>{
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
       }
-      return e.message;
+      return "Field cannot leave empty";
     }catch(e){
-      return "";
+      return "Field cannot leave empty";
     }
   }
   Future<void> _alertDialog(String error) async{
@@ -58,7 +59,7 @@ class _LoginPageState extends State<LoginPage>{
         }
     );
   }
-  void _submitLog() async{
+   void _submitLog() async{
     setState(() {
       _loginLoad = true;
     });
@@ -69,13 +70,13 @@ class _LoginPageState extends State<LoginPage>{
         _loginLoad = false;
       });
     }else{
+      Toast.show("You have login as " + auth.currentUser.displayName + ".", context, duration: Toast.LENGTH_LONG);
       FirebaseFirestore.instance.collection('Users')
           .doc(auth.currentUser.uid)
           .update({'pass': _password});
-      Toast.show("You have login as " + auth.currentUser.displayName + ".", context, duration: Toast.LENGTH_LONG);
     }
-
   }
+
   @override
   void initState(){
     super.initState();
@@ -116,15 +117,15 @@ class _LoginPageState extends State<LoginPage>{
                       textInputAction: TextInputAction.next,
                     ),
                     CustomInput(
-                      onChanged: (value){
+                      hintText: "Password...",
+                      onChanged: (value) {
                         _password = value;
                       },
-                        onSubmitted: (value){
-                          _submitLog();
-                        },
-                        focusNode: _passwordFocus,
-                        isPassField: true,
-                          hintText: "Enter Password..."
+                      focusNode: _passwordFocus,
+                      isPassField: true,
+                      onSubmitted: (value) {
+                        _submitLog();
+                      },
                     ),
                     CustomBtn(
                       text: "Login",
@@ -137,12 +138,12 @@ class _LoginPageState extends State<LoginPage>{
                   ],
                 ),
                 CustomBtn(
-                  text: "Forget Password",
+                  text: "Forgot Password",
                   onPressed: (){
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ForgetPassword()
+                          builder: (context) => ForgotPassword()
                       ),
                     );
                   },
