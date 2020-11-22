@@ -1,9 +1,7 @@
 
 import 'package:chickchat/Pattern/design.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class OnlineApplicationHistoryView extends StatefulWidget {
   OnlineApplicationHistoryView({Key key, @required this.formType, @required this.reason}) : super(key: key);

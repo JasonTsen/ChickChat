@@ -1,7 +1,5 @@
 import 'package:chickchat/add_event.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:chickchat/myCalendar.dart';
 import 'package:chickchat/event.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
