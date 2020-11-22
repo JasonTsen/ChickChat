@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:time_range/time_range.dart';
 import 'package:chickchat/event_firestore_service.dart';
 
@@ -183,6 +184,16 @@ class _AddEventPageState extends State<AddEventPage> {
                           processing = false;
                         });
                       }
+                      Fluttertoast.showToast(
+                        msg: "Save Successfully",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.SNACKBAR,
+                        timeInSecForIosWeb: 10,
+                        backgroundColor: Colors.black45,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+
+                      );
                     },
                     child: Text(
                       widget.note != null ? "Update Event" :

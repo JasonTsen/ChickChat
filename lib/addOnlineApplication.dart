@@ -48,7 +48,7 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
           alignment: Alignment.center,
           child: ListView(
             children: <Widget>[
-              const SizedBox(height: 10.0),
+              const SizedBox(height: 20.0),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Text(auth.currentUser.displayName,textAlign: TextAlign.center,style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold),),
@@ -84,12 +84,21 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
                     },
                     dataSource: [
                       {
-                        "display" : "Running",
-                        "value" : "Running",
+                        "display" : "Event Registration Form",
+                        "value" : "Event Registration Form",
                       },
                       {
-                        "display" : "Climbing",
-                        "value" : "Climbing",
+                        "display" : "Department Change Form",
+                        "value" : "Department Change Form",
+                      },
+                      {
+                        "display" : "Claim Form",
+                        "value" : "Claim Form",
+                      },
+
+                      {
+                        "display" : "Others Application Form",
+                        "value" : "Others Application Form",
                       },
                     ],
                     validator: (value) =>
@@ -119,22 +128,6 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
               ),
 
               const SizedBox(height: 10.0),
-              ListTile(
-                //title: Text("Date Apply: ${_applyDate.year} - ${_applyDate.month} - ${_applyDate.day} \nTime Apply: ${_applyDate.hour}:${_applyDate.minute}",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                // onTap: ()async{
-                //   DateTime picked = await showDatePicker(context: context, initialDate: _eventDate, firstDate: DateTime(_eventDate.year-5), lastDate: DateTime(_eventDate.year+5));
-                //
-                //   if(picked != null) {
-                //     setState(() {
-                //       _eventDate = picked;
-                //     });
-                //   }
-                // },
-              ),
-
-              const SizedBox(height: 10.0),
-
-              SizedBox(height: 10.0),
 
               processing
                   ? Center(child: CircularProgressIndicator())

@@ -17,6 +17,7 @@ class MyOnlineApplicationApp extends StatelessWidget {
                 context: context,
                 builder: (context) => RulesAndRegulation(),
           ),
+            tooltip: "Rules and Regulation of applying Application Form",
           )
         ],
       ),

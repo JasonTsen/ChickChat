@@ -19,6 +19,7 @@ class AboutUs extends StatelessWidget {
               context: context,
               builder: (context) => ReportBugs(),
             ),
+            tooltip: "Report Bugs",
           )
         ],
       ),
