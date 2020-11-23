@@ -1,18 +1,19 @@
 import 'package:chickchat/Controller/constants.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/collaborator.dart';
-import 'package:chickchat/models/Project.dart';
-import 'package:chickchat/models/Task.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class ProjectTitleWithProgressBar extends StatelessWidget {
+  final String title;
+  final int percentage;
+  final String collaborators;
+
   const ProjectTitleWithProgressBar({
     Key key,
-    @required this.project, this.task,
+    @required this.title,
+    this.percentage,
+    this.collaborators,
   }) : super(key: key);
-
-  final Project project;
-  final Task task;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class ProjectTitleWithProgressBar extends StatelessWidget {
             onTap: () async {
               var baseDialog = BaseAlertDialog(
                 title: "Project Title:",
-                content: project.title,
+                content: title,
                 yesOnPressed: () {},
                 yes: "Close",
               );
@@ -41,7 +42,7 @@ class ProjectTitleWithProgressBar extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.only(top: 4.0),
               child: Text(
-                project.title,
+                title,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context)
                     .textTheme
@@ -61,8 +62,8 @@ class ProjectTitleWithProgressBar extends StatelessWidget {
                   animation: true,
                   lineHeight: 20.0,
                   animationDuration: 1100,
-                  percent: (project.percentage / 100), //percentage variable
-                  center: Text(project.percentage.toString() + "%"), //percentage variable
+                  percent: (percentage / 100), //percentage variable
+                  center: Text(percentage.toString() + "%"), //percentage variable
                   linearStrokeCap: LinearStrokeCap.roundAll,
                   progressColor: Colors.greenAccent,
                 ),
@@ -78,7 +79,7 @@ class ProjectTitleWithProgressBar extends StatelessWidget {
 
                   var baseDialog = BaseAlertDialog(
                       title: "Project Collaborators:",
-                      content: project.collaborators,
+                      content: collaborators,
                       yesOnPressed: () {},
                       yes: "Close",
                   );

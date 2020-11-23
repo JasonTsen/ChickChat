@@ -1,16 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chickchat/Pattern/design.dart';
-import 'package:chickchat/Pattern/loading.dart';
+import 'Pattern/design.dart';
+import 'Pattern/loading.dart';
 import 'UserNDoc/userProfile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_widgets/flutter_widgets.dart';
-
-import 'Controller/chatFirebase.dart';
 import 'chatroom.dart';
 class ManagerChat extends StatefulWidget {
   final String currentUserId;
@@ -25,9 +19,7 @@ class ManagerChatState extends State<ManagerChat> {
   ManagerChatState({Key key, @required this.currentUserId});
   String userId = "";
   final String currentUserId;
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+
   bool isLoading = false;
   @override
   void initState() {
@@ -42,17 +34,7 @@ class ManagerChatState extends State<ManagerChat> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(
-            iconSize: 40,
-            padding: EdgeInsets.fromLTRB(
-                10,10,20,10
-            ),
-            icon: Icon(Icons.search)
-            ,
-            onPressed: () {
 
-            },
-          ),
           IconButton(
             iconSize: 40,
             padding: EdgeInsets.fromLTRB(
@@ -110,36 +92,15 @@ class ManagerChatState extends State<ManagerChat> {
               ),
 
             ),
-            Container(
-              padding: EdgeInsets.only(bottom: 20.0, left: 300.0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: FloatingActionButton(
-                  onPressed: (){
-
-                  },
-                  child: Icon(Icons.add),
-                ),
-              ),
-            ),
-
-
-
             // Loading
             Positioned(
               child: isLoading ? const Loading() : Container(),
             ),
-
           ],
-
         ),
-
       ),
-
     );
-
   }
-
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
     if (document.data()['id'] == currentUserId) {
       return Container();
@@ -221,7 +182,7 @@ class ManagerChatState extends State<ManagerChat> {
 
           },
 
-          color: Design.greyColor,
+          color: Colors.amber,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),

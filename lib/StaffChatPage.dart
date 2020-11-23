@@ -1,16 +1,11 @@
-
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chickchat/Pattern/design.dart';
-import 'package:chickchat/Pattern/loading.dart';
+import 'Pattern/design.dart';
+import 'Pattern/loading.dart';
 import 'UserNDoc/userProfile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_widgets/flutter_widgets.dart';
-
-import 'Controller/chatFirebase.dart';
 import 'chatroom.dart';
 class StaffChat extends StatefulWidget {
   final String currentUserId;
@@ -30,7 +25,6 @@ class StaffChatState extends State<StaffChat> {
   bool isLoading = false;
   @override
   void initState() {
-    FirebaseController.instance.getUnreadMSGCount();
     super.initState();
   }
   @override
@@ -40,17 +34,6 @@ class StaffChatState extends State<StaffChat> {
       appBar: AppBar(
 
         actions: [
-          IconButton(
-            iconSize: 40,
-            padding: EdgeInsets.fromLTRB(
-                10,10,20,10
-            ),
-            icon: Icon(Icons.search)
-            ,
-            onPressed: () {
-
-            },
-          ),
           IconButton(
             iconSize: 40,
             padding: EdgeInsets.fromLTRB(
@@ -121,10 +104,10 @@ class StaffChatState extends State<StaffChat> {
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document) {
-    if (document.data()['id'] == currentUserId) {
+    if (document.data()['uid'] == currentUserId) {
       return Container();
     } else {
-      print(currentUserId);
+      // print(currentUserId);
       return Container(
         height: document.data()['uid'] != currentUserId
             ? 80.0
@@ -197,7 +180,7 @@ class StaffChatState extends State<StaffChat> {
                           peerAvatar: document.data()['userImg'],
                         )));
           },
-          color: Colors.grey,
+          color: Colors.amber,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),

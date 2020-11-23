@@ -1,13 +1,9 @@
-import 'package:chickchat/models/Project.dart';
 import 'package:flutter/material.dart';
 
 class TaskColor extends StatelessWidget {
   const TaskColor({
     Key key,
-    @required this.project,
   }) : super(key: key);
-
-  final Project project;
 
   @override
   Widget build(BuildContext context) {

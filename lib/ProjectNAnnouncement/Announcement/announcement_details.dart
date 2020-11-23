@@ -1,25 +1,26 @@
 import 'package:chickchat/Controller/constants.dart';
 import 'package:chickchat/Pattern/design.dart';
-import 'package:chickchat/models/Announcement.dart';
-import 'package:chickchat/models/Project.dart';
-import 'package:chickchat/models/Task.dart';
+import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AnnouncementDetails extends StatelessWidget {
+  final String annContent;
+  final String receiver;
+  final String relatedProject;
+  final String sender;
+  final String title;
+  final bool viewed;
 
   const AnnouncementDetails({
-    Key key,
-    @required this.task, this.project, this.announcement,
+    Key key, this.annContent, this.receiver, this.relatedProject, this.sender, this.title, this.viewed
   }) : super(key: key);
-
-  final Task task;
-  final Project project;
-  final Announcement announcement;
 
   @override
   Widget build(BuildContext context) {
     MediaQueryData queryData;
     queryData = MediaQuery.of(context);
+    CollectionReference projects = FirebaseFirestore.instance.collection('Projects');
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -34,9 +35,9 @@ class AnnouncementDetails extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 10.0, bottom: 5.0),
+                    margin: const EdgeInsets.only(top: 13.0, bottom: 5.0),
                     child: Text(
-                      announcement.title,
+                      title,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -49,123 +50,54 @@ class AnnouncementDetails extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children:<Widget>[
-                  Text ('Contents:', style: new TextStyle(fontSize: 18, decoration: TextDecoration.underline,)),
+                  Text ('Contents:', style: new TextStyle(fontSize: 18)),
                 ],
               ),
               Divider(color: Colors.white),
               Expanded(
-                child: new SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: new Text(
-                    announcement.annContent,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.vertical,
+                    child: new Text(
+                        annContent,
+                        style: new TextStyle()
+                    ),
                   ),
-                ),
+                )
               ),
-              Divider(color: Colors.black),
               Column(
-                children:<Widget>[
-                  Text (announcement.relatedProject),
-                ],
-              ),
-              /*Row(
-                children: [
-                  Text(
-                    'Document Required: ',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    Divider(color: Colors.black),
+                    FutureBuilder(
+                      future: projects.doc(relatedProject).get(),
+                      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                  Design.themeColor),
+                            ),
+                          );
+                        }
+                        else {
+                          Map<String, dynamic> data = snapshot.data.data();
+                          return Text("${data['title']}");
+                        }
+                      },
                     ),
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () async {
-                      var baseDialog = BaseAlertDialog(
-                        title: "Documents Required:",
-                        content: task.docRequired,
-                        yesOnPressed: () {},
-                        yes: "Close",
-                      );
-                      showDialog(context: context, builder: (BuildContext context) => baseDialog);
-                    },
-                    child: SizedBox(
-                      width: 160.0,
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                        child: Text(
-                          task.docRequired,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Divider(color: Colors.black),
-              Row(
-                children: [
-                  Text(
-                    'Description: ',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                  Spacer(),
-                  GestureDetector(
-                    onTap: () async {
-                      var baseDialog = BaseAlertDialog(
-                        title: "Task Description:",
-                        content: task.desc,
-                        yesOnPressed: () {},
-                        yes: "Close",
-                      );
-                      showDialog(context: context, builder: (BuildContext context) => baseDialog);
-                    },
-                    child: SizedBox(
-                      width: 200.0,
-                      child: Container(
-                        padding: new EdgeInsets.only(right: 15.0),
-                        margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-                        child: Text(
-                          task.desc,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(color: Colors.black),
-              Row(
-                children: [
-                  Container(
-                    child: Text(
-                      'Task Status: ',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              MyTaskStatus(), //Radio button list to select task status*/
+                  ],
+                ),
             ],
           ),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        child: ElevatedButton(
-          onPressed: () {},
-          child: Text('Submit'),
         ),
       ),
     );

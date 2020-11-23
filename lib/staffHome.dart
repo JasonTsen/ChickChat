@@ -1,5 +1,6 @@
 import 'package:chickchat/ProjectNAnnouncement/Announcement/announcement.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/project_list.dart';
+import 'package:chickchat/aboutUs.dart';
 import 'package:chickchat/myOnlineApplication.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,7 @@ class _StaffHomePageState extends State<StaffHomePage> {
                 AnnouncementScreen(),
                 DocumentPage(),
                 MyOnlineApplicationApp(),
-
+                AboutUs()
               ],
             ),
           ),

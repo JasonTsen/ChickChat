@@ -48,7 +48,6 @@ class _BottomTabState extends State<BottomTab>{
           ),
           BottomTabNav(
             imagePath: Icons.more_vert,
-            selected: _selectedTab == 7 ? true : false,
             onPressed: () async{
               showModalBottomSheet(
                   context: context,
@@ -57,7 +56,6 @@ class _BottomTabState extends State<BottomTab>{
                     width: double.infinity,
                     decoration: BoxDecoration(
                       color:  Colors.white,
-
                       borderRadius: BorderRadius.circular(38.0),
                     ),
 
@@ -80,6 +78,16 @@ class _BottomTabState extends State<BottomTab>{
                           onPressed: () {
                             Navigator.pop(context);
                             widget.tabPressed(5);
+                          },
+                        ),
+
+                        BottomTabNav(
+                          imagePath: Icons.info_outline,
+                          label: Text("Chat"),
+                          selected: _selectedTab == 6 ? true : false,
+                          onPressed: () {
+                            Navigator.pop(context);
+                            widget.tabPressed(6);
                           },
                         ),
 
