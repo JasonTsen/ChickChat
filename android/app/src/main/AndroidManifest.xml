@@ -10,7 +10,9 @@
     <application
         android:name="io.flutter.app.FlutterApplication"
         android:label="chickchat"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:largeHeap="true"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
