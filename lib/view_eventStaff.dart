@@ -33,7 +33,7 @@ class StaffEventDetailsPage extends StatelessWidget {
                   Icon(IconData(61577, fontFamily: 'MaterialIcons'),size: 50,),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                   //Text("Event Tittle",style: TextStyle(fontSize: 22.0,),),
-                  Text(event.title,style: TextStyle(fontSize: 22.0,),), //Theme.of(context).textTheme.display1
+                  Flexible(child: Text(event.title,style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.ellipsis,maxLines: 3,)), //Theme.of(context).textTheme.display1
                 ],
               ),
               // ignore: deprecated_member_use
@@ -44,7 +44,7 @@ class StaffEventDetailsPage extends StatelessWidget {
                   SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                   Icon(IconData(59047, fontFamily: 'MaterialIcons'),size: 50,),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                  Text(event.description, style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.clip,),
+                  Flexible(child: Text(event.description, style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.ellipsis,maxLines: 6,)),
                 ],
               ),
 
@@ -54,7 +54,7 @@ class StaffEventDetailsPage extends StatelessWidget {
                   SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                   Icon(IconData(58022, fontFamily: 'MaterialIcons'),size: 50,),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                  Text(event.location, style: TextStyle(fontSize: 22.0,),)
+                  Flexible(child: Text(event.location, style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.ellipsis,maxLines: 3,)),
                 ],
               ),
               SizedBox(height: 20.0),
@@ -63,7 +63,7 @@ class StaffEventDetailsPage extends StatelessWidget {
                   SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                   Icon(IconData(58715, fontFamily: 'MaterialIcons'),size: 50,),
                   SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-                  Text(event.eventTimeStart + ' - ' + event.eventTimeEnd, style: TextStyle(fontSize: 22.0,),)
+                  Flexible(child: Text(event.eventTimeStart + ' - ' + event.eventTimeEnd, style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.ellipsis,maxLines: 2,)),
                 ],)
 
 

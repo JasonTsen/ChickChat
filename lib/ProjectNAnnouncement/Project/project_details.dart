@@ -1,16 +1,24 @@
 import 'package:chickchat/Controller/constants.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/project_title_with_progressbar.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_color.dart';
-import 'package:chickchat/models/Project.dart';
-import 'package:chickchat/models/Task.dart';
 import 'package:flutter/material.dart';
 import 'description.dart';
 
-class Body extends StatelessWidget {
-  final Project project;
-  final Task task;
+class ProjectDetails extends StatelessWidget {
+  final String id;
+  final String collaborators;
+  final String title;
+  final int percentage;
 
-  const Body({Key key, this.project, this.task}) : super(key: key);
+  const ProjectDetails({
+    Key key,
+    @required
+    this.id,
+    this.collaborators,
+    this.title,
+    this.percentage
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size; //to get current device's heights and width
@@ -37,20 +45,20 @@ class Body extends StatelessWidget {
                   ),
                   child: Column(
                     children: <Widget>[
-                      TaskColor(project: project),
-                      //SizedBox(width: MediaQuery.of(context).size .width, height: kDefaultPaddin / 1),
+                      TaskColor(),
                       Divider(color: Colors.black38),
-                      Description(task: task),
+                      Description(id: this.id),
                       Container(
                           margin: EdgeInsets.only(bottom:100),
                       ),
-                      //Text('Project Started', style: new TextStyle(margin: EdgeInsets.only(top: size.height * 0.25)),),
-                      //Divider(color: Colors.black54),
-                      //padding: const EdgeInsets.only(bottom: 90),
                     ],
                   ),
                 ),
-                ProjectTitleWithProgressBar(project: project)
+                ProjectTitleWithProgressBar(
+                    collaborators: this.collaborators,
+                    title: this.title,
+                    percentage: this.percentage,
+                ),
               ],
             ),
           ),

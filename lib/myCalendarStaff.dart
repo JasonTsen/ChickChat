@@ -13,7 +13,7 @@ class MyCalendarStaff extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'My Calendar',
+      title: 'Calendar',
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   TableCalendar(
                     events: _events,
-                    initialCalendarFormat: CalendarFormat.week,
+                    initialCalendarFormat: CalendarFormat.month,
                     calendarStyle: CalendarStyle(
                         canEventMarkersOverflow: true,
                         todayColor: Colors.grey,
