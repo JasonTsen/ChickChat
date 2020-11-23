@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class ChangePassword extends StatefulWidget {
 
@@ -197,22 +198,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                               if(result == 'OK'){
                                 FirebaseAuth.instance.currentUser.updatePassword(_newPasswordController.text);
                                 if(_formKey.currentState.validate() ){
+                                  await FirebaseAuth.instance.signOut();
+                                  Toast.show("Login with your updated password", context, duration: Toast.LENGTH_LONG);
                                   Navigator.pop(context);
                                 }
-                                AlertDialog(
-                                  title: Text('Logout'),
-                                  content: Text('Login with your updated password'),
-                                  actions: <Widget>[
-                                    MaterialButton(
-                                      child: Text('OK'),
-                                      onPressed: ()async{
-                                        await FirebaseAuth.instance.signOut();
-                                      },
-                                    )
-                                  ],
-                                );
-
                               }
+                              Navigator.pop(context);
                             });
                           },
                           child: Text('Save Password'),

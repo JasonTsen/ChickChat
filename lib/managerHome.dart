@@ -65,8 +65,6 @@ class _ManagerHomePageState extends State<ManagerHomePage> {
           ),
 
           BottomTab(
-
-
             selectedTab: _selectedTab,
             tabPressed: (num) {
               _tabsPageController.animateToPage(
