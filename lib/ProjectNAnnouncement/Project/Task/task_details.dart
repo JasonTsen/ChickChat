@@ -1,18 +1,19 @@
 import 'package:chickchat/Controller/constants.dart';
-import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_status.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/collaborator.dart';
 import 'package:chickchat/models/Project.dart';
 import 'package:chickchat/models/Task.dart';
 import 'package:flutter/material.dart';
+
 class TaskDetails extends StatelessWidget {
 
   const TaskDetails({
     Key key,
-    @required this.task, this.project,
+    @required this.task, this.project, this.id,
   }) : super(key: key);
 
   final Task task;
   final Project project;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +35,12 @@ class TaskDetails extends StatelessWidget {
                   padding: EdgeInsets.all(kDefaultPaddin),
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
-                    color: task.color,
+                    color: Colors.lightGreen,
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Hero(
-                    tag: "${task.id}",
-                    child: Text(task.title, style: new TextStyle(color:Colors.white)),
+                    tag: "${'P01'}",
+                    child: Text('Project Title', style: new TextStyle(color:Colors.white)),
                   ),
                 ),
               ),
@@ -57,7 +58,7 @@ class TaskDetails extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                     child: Text(
-                      task.title,
+                      'Task Title',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -80,7 +81,7 @@ class TaskDetails extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                     child: Text(
-                      task.dueDate,
+                      '20-December-2020',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -104,7 +105,7 @@ class TaskDetails extends StatelessWidget {
                     onTap: () async {
                       var baseDialog = BaseAlertDialog(
                         title: "Documents Required:",
-                        content: task.docRequired,
+                        content: 'Documents',
                         yesOnPressed: () {},
                         yes: "Close",
                       );
@@ -115,7 +116,7 @@ class TaskDetails extends StatelessWidget {
                       child: Container(
                         margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                         child: Text(
-                          task.docRequired,
+                          'Documents',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 16,
@@ -142,7 +143,7 @@ class TaskDetails extends StatelessWidget {
                     onTap: () async {
                       var baseDialog = BaseAlertDialog(
                         title: "Task Description:",
-                        content: task.desc,
+                        content: 'Description',
                         yesOnPressed: () {},
                         yes: "Close",
                       );
@@ -154,7 +155,7 @@ class TaskDetails extends StatelessWidget {
                         padding: new EdgeInsets.only(right: 15.0),
                         margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
                         child: Text(
-                          task.desc,
+                          id,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontSize: 16,
@@ -180,7 +181,7 @@ class TaskDetails extends StatelessWidget {
                   ),
                 ],
               ),
-              MyTaskStatus(), //Radio button list to select task status
+              //MyTaskStatus(), //Radio button list to select task status
             ],
           ),
         ),
@@ -197,23 +198,14 @@ class TaskDetails extends StatelessWidget {
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
       title: Text('Task Details'),
-      backgroundColor: Colors.grey,
+      backgroundColor: Colors.black45,
       elevation: 0,
       leading: IconButton(
         icon: Icon(Icons.arrow_back),
-        onPressed: () => Navigator.pop(context),
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
-      /*actions: <Widget>[
-        IconButton(
-          icon: SvgPicture.asset("assets/icons/search.svg"),
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: SvgPicture.asset("assets/icons/cart.svg"),
-          onPressed: () {},
-        ),
-        SizedBox(width: kDefaultPaddin / 2)
-      ],*/
     );
   }
 }

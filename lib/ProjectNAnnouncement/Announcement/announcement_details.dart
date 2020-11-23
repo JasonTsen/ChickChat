@@ -119,20 +119,3 @@ class AnnouncementDetails extends StatelessWidget {
     );
   }
 }
-
-/*
-extension ExtendedString on String{
-  String get projectTitle{
-    String project = this;
-    final temp = FirebaseFirestore.instance;
-
-    temp.collection('Projects').get().then((querySnapshot){
-      querySnapshot.docs.forEach((result){
-        if(result.id == project){
-          project = result.data()["title"];
-        }
-      });
-    });
-    return project;
-  }
-}*/
