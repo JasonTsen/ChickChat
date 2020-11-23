@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server/gmail.dart';
+import 'package:toast/toast.dart';
 
 class AddOnlineApplication extends StatefulWidget {
   const AddOnlineApplication({Key key}) : super(key: key);
@@ -167,16 +167,7 @@ class _AddOnlineApplicationForm extends State<AddOnlineApplication> {
                           processing = false;
                         });
                       }
-                      Fluttertoast.showToast(
-                        msg: "Send Successfully",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.SNACKBAR,
-                        timeInSecForIosWeb: 10,
-                        backgroundColor: Colors.black45,
-                        textColor: Colors.white,
-                        fontSize: 16.0,
-
-                      );
+                      Toast.show("Send Successfully", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
                     },
                     child: Text(
                       "Apply Online Application Form",

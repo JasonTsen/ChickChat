@@ -1,7 +1,7 @@
 import 'package:chickchat/add_event.dart';
 import 'package:flutter/material.dart';
 import 'package:chickchat/event.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:toast/toast.dart';
 
 class EventDetailsPage extends StatelessWidget {
   final EventModel event;
@@ -91,16 +91,7 @@ class EventDetailsPage extends StatelessWidget {
     if(await _showConfirmationDialog(context)) {
       try {
         await EventModel().deleteData(id);
-        Fluttertoast.showToast(
-          msg: "Event has been delete",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.SNACKBAR,
-          timeInSecForIosWeb: 10,
-          backgroundColor: Colors.black45,
-          textColor: Colors.white,
-          fontSize: 16.0,
-
-        );
+        Toast.show("Event has been deleted", context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
       }catch(e) {
         print(e);
       }

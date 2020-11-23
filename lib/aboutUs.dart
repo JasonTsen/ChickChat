@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:toast/toast.dart';
 
 class AboutUs extends StatelessWidget {
   @override
@@ -205,17 +205,8 @@ class _ReportBugs extends State<ReportBugs> {
                           processing = false;
                         });
                       }
-
-                      Fluttertoast.showToast(
-                          msg: "Your Report has been received and is now tracked, Thank you for your help",
-                          toastLength: Toast.LENGTH_SHORT,
-                          gravity: ToastGravity.BOTTOM,
-                          timeInSecForIosWeb: 10,
-                          backgroundColor: Colors.black45,
-                          textColor: Colors.white,
-                          fontSize: 16.0,
-
-                      );
+                      Toast.show("Your Report has been received and is now tracked, Thank you for your help",
+                          context, duration: Toast.LENGTH_LONG, gravity:  Toast.BOTTOM);
                     },
                     child: Text(
                       "Send Report",
