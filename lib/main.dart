@@ -6,16 +6,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 const bool kReleaseMode = bool.fromEnvironment('dart.vm.product', defaultValue: false);
 Future<void> main() async {
+
   FlutterError.onError = (FlutterErrorDetails details) {
     FlutterError.dumpErrorToConsole(details);
     if (kReleaseMode)
       exit(1);
   };
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(
+      debug: true
+  );
   await Firebase.initializeApp();
   runApp(MyApp());
 }
