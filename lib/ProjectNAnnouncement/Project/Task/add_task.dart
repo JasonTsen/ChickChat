@@ -209,7 +209,7 @@ class _AddTaskState extends State<AddTask> {
           onPressed: () {
             _submitCreate();
           },
-          child: Text('Submit'),
+          child: Text('Submit', style: new TextStyle(fontSize: 18)),
         ),
       ),
     );

@@ -1,8 +1,6 @@
 import 'package:chickchat/Controller/constants.dart';
 import 'package:chickchat/Pattern/design.dart';
-import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_card.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/task_details.dart';
-import 'package:chickchat/models/Task.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +8,9 @@ class Description extends StatelessWidget {
   const Description({
     Key key,
     @required this.id,
-    this.task,
   }) : super(key: key);
 
   final String id;
-  final Task task;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +21,7 @@ class Description extends StatelessWidget {
           stream: FirebaseFirestore.instance.collection('Projects')
               .doc(id)
               .collection("Tasks")
+              .orderBy('dueDate', descending: true)
               .snapshots(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
@@ -64,6 +61,7 @@ class Description extends StatelessWidget {
             builder: (context) =>
                 TaskDetails(
                   id: document.id,
+                  projectId: id,
                 ),
           ),
         );
