@@ -162,7 +162,7 @@ class _UserProfileState extends State<UserProfile> {
                   SizedBox(height: 30),
                   Container(
                     height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 50)
+                    margin: EdgeInsets.symmetric(horizontal: 30)
                         .copyWith(bottom: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.0),
@@ -314,7 +314,7 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                   Container(
                     height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 50)
+                    margin: EdgeInsets.symmetric(horizontal: 30)
                         .copyWith(bottom: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.0),
@@ -348,7 +348,7 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                   Container(
                     height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 50)
+                    margin: EdgeInsets.symmetric(horizontal: 30)
                         .copyWith(bottom: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.0),
@@ -498,7 +498,7 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                   Container(
                     height: 50,
-                    margin: EdgeInsets.symmetric(horizontal: 50)
+                    margin: EdgeInsets.symmetric(horizontal: 30)
                         .copyWith(bottom: 10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.0),
@@ -534,8 +534,7 @@ class _UserProfileState extends State<UserProfile> {
                   InkWell(
                     child: Container(
                       height: 50,
-                      width: 310,
-                      margin: EdgeInsets.symmetric(horizontal: 50)
+                      margin: EdgeInsets.symmetric(horizontal: 30)
                           .copyWith(bottom: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30.0),
@@ -586,8 +585,7 @@ class _UserProfileState extends State<UserProfile> {
                   InkWell(
                     child: Container(
                       height: 50,
-                      width: 310,
-                      margin: EdgeInsets.symmetric(horizontal: 50)
+                      margin: EdgeInsets.symmetric(horizontal: 30)
                           .copyWith(bottom: 10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(30.0),

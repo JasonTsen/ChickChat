@@ -9,15 +9,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'chatroom.dart';
 class StaffChat extends StatefulWidget {
   final String currentUserId;
-
   StaffChat({Key key, @required this.currentUserId}) : super(key: key);
-
   @override
   State createState() => StaffChatState(currentUserId: currentUserId);
 }
 class StaffChatState extends State<StaffChat> {
   StaffChatState({Key key, @required this.currentUserId});
-
   final String currentUserId;
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =

@@ -294,83 +294,82 @@ class ChatScreenState extends State<ChatScreen> {
         child:Container(
           child: Column(
               children: <Widget>[
-        Row(
-          children: <Widget>[
-            document.data()['type'] == 0
-            // Text
-                ? Container(
-              child: Text(
-                document.data()['content'],
-                style: TextStyle(color: Design.primaryColor),
-              ),
-              padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-              width: 200.0,
-              decoration: BoxDecoration(
-                  color: Design.themeColor,
-                  borderRadius: BorderRadius.circular(8.0)),
-              margin: EdgeInsets.only(
-                  bottom: isLastMessageRight(index) ? 20.0 : 10.0,
-                  right: 10.0),
-            )
-                : document.data()['type'] == 1
-            // Image
-                ? Container(
-              child: FlatButton(
-                child: Material(
-                  child: CachedNetworkImage(
-                    placeholder: (context, url) => Container(
-                      child: CircularProgressIndicator(
-                        valueColor:
-                        AlwaysStoppedAnimation<Color>(Design.themeColor),
-                      ),
-                      width: 200.0,
-                      height: 200.0,
-                      padding: EdgeInsets.all(70.0),
-                      decoration: BoxDecoration(
-                        color: Design.greyColor2,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8.0),
-                        ),
-                      ),
+                Row(
+                children: <Widget>[
+                  document.data()['type'] == 0
+                  // Text
+                      ? Container(
+                    child: Text(
+                      document.data()['content'],
+                      style: TextStyle(color: Design.primaryColor),
                     ),
-
-                    imageUrl: document.data()['content'],
+                    padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                     width: 200.0,
-                    height: 200.0,
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                  clipBehavior: Clip.hardEdge,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => FullPhoto(
-                              url: document.data()['content'])));
-                },
-                padding: EdgeInsets.all(0),
-              ),
-              margin: EdgeInsets.only(
-                  bottom: isLastMessageRight(index) ? 20.0 : 10.0,
-                  right: 10.0),
-            )
-            // Sticker
-                : Container(
-              child: Image.asset(
-                'images/${document.data()['content']}.gif',
-                width: 100.0,
-                height: 100.0,
-                fit: BoxFit.cover,
-              ),
-              margin: EdgeInsets.only(
-                  bottom: isLastMessageRight(index) ? 20.0 : 10.0,
-                  right: 10.0),
-            ),
+                    decoration: BoxDecoration(
+                        color: Design.themeColor,
+                        borderRadius: BorderRadius.circular(8.0)),
+                    margin: EdgeInsets.only(
+                        bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                        right: 10.0),
+                  )
+                      : document.data()['type'] == 1
+                  // Image
+                      ? Container(
+                    child: FlatButton(
+                      child: Material(
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) => Container(
+                            child: CircularProgressIndicator(
+                              valueColor:
+                              AlwaysStoppedAnimation<Color>(Design.themeColor),
+                            ),
+                            width: 200.0,
+                            height: 200.0,
+                            padding: EdgeInsets.all(70.0),
+                            decoration: BoxDecoration(
+                              color: Design.greyColor2,
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                            ),
+                          ),
 
-          ],
-          mainAxisAlignment: MainAxisAlignment.end,
-        ),
+                          imageUrl: document.data()['content'],
+                          width: 200.0,
+                          height: 200.0,
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                        clipBehavior: Clip.hardEdge,
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FullPhoto(
+                                    url: document.data()['content'])));
+                      },
+                      padding: EdgeInsets.all(0),
+                    ),
+                    margin: EdgeInsets.only(
+                        bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                        right: 10.0),
+                  )
+                  // Sticker
+                      : Container(
+                    child: Image.asset(
+                      'images/${document.data()['content']}.gif',
+                      width: 100.0,
+                      height: 100.0,
+                      fit: BoxFit.cover,
+                    ),
+                    margin: EdgeInsets.only(
+                        bottom: isLastMessageRight(index) ? 20.0 : 10.0,
+                        right: 10.0),
+                  ),
+                ],
+                mainAxisAlignment: MainAxisAlignment.end,
+              ),
                 isLastMessageRight(index)
                     ? Container(
                   child: Text(
@@ -385,9 +384,9 @@ class ChatScreenState extends State<ChatScreen> {
                   margin: EdgeInsets.only(left: 290.0,  bottom: 5.0),
                 )
                     : Container()
-        ]
-         )
-        )
+              ],
+            ),
+          ),
       );
     } else {
       // Left (peer message)
