@@ -287,10 +287,6 @@ class _DocumentPageState extends State<DocumentPage> with SingleTickerProviderSt
                                                         },
                                                       ),
                                                       ListTile(
-                                                        leading: Icon(CupertinoIcons.share),
-                                                        title: Text('Share'),
-                                                      ),
-                                                      ListTile(
                                                         leading: Icon(CupertinoIcons.arrow_down_circle),
                                                         title: Text('Download'),
                                                         onTap: ()async{
