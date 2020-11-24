@@ -291,7 +291,10 @@ class ChatScreenState extends State<ChatScreen> {
           //   ],
           // );
         },
-        child: Row(
+        child:Container(
+          child: Column(
+              children: <Widget>[
+        Row(
           children: <Widget>[
             document.data()['type'] == 0
             // Text
@@ -364,9 +367,27 @@ class ChatScreenState extends State<ChatScreen> {
                   bottom: isLastMessageRight(index) ? 20.0 : 10.0,
                   right: 10.0),
             ),
+
           ],
           mainAxisAlignment: MainAxisAlignment.end,
         ),
+                isLastMessageRight(index)
+                    ? Container(
+                  child: Text(
+                    DateFormat('dd MMM kk:mm').format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                            int.parse(document.data()['timestamp']))),
+                    style: TextStyle(
+                        color: Design.greyColor,
+                        fontSize: 12.0,
+                        fontStyle: FontStyle.italic),
+                  ),
+                  margin: EdgeInsets.only(left: 290.0,  bottom: 5.0),
+                )
+                    : Container()
+        ]
+         )
+        )
       );
     } else {
       // Left (peer message)

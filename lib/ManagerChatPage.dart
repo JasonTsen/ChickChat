@@ -54,7 +54,7 @@ class ManagerChatState extends State<ManagerChat> {
         ],
 
         title: Text(
-          'Manager Page',
+          'Chats',
           style: TextStyle(color: Design.primaryColor, fontWeight: FontWeight.bold),
         ),
 

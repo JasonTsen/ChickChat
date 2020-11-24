@@ -16,7 +16,7 @@ class CustomBtn extends StatelessWidget {
         height: 60.0,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: _outlineBtn ? Colors.transparent : Colors.amber,
+          color: _outlineBtn ? Colors.transparent : Colors.amberAccent,
           border: Border.all(
             color: Colors.amber,
             width: 2.0,
@@ -45,9 +45,12 @@ class CustomBtn extends StatelessWidget {
             Visibility(
               visible: _isLoad,
               child: Center(
+
                 child: SizedBox(
+
                     height: 24.0,
                     width: 24.0,
+
                     child: CircularProgressIndicator()
 
                 ),
