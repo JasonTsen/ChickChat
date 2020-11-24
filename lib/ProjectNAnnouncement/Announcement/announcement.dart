@@ -1,10 +1,13 @@
 import 'package:chickchat/Pattern/design.dart';
 import 'package:chickchat/Pattern/loading.dart';
+import 'package:chickchat/ProjectNAnnouncement/Announcement/add_announcement.dart';
 import 'package:chickchat/ProjectNAnnouncement/Announcement/announcement_details.dart';
+import 'package:chickchat/ProjectNAnnouncement/Announcement/delete_announcement_confirmation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class AnnouncementScreen extends StatefulWidget {
 
@@ -72,7 +75,12 @@ class AnnouncementScreenState extends State<AnnouncementScreen> {
                 alignment: Alignment.bottomCenter,
                 child: FloatingActionButton(
                   onPressed: () {
-
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              AddAnnouncement(),
+                        ));
                   },
                   child: Icon(Icons.add),
                 ),
@@ -87,6 +95,10 @@ class AnnouncementScreenState extends State<AnnouncementScreen> {
         ),
       ),
     );
+  }
+
+  Future <void> _deleteAnnouncement (String id) async {
+    FirebaseFirestore.instance.collection('Announcements').doc(id).delete();
   }
 
   Widget announcementCard(BuildContext context, DocumentSnapshot document) {
@@ -140,6 +152,24 @@ class AnnouncementScreenState extends State<AnnouncementScreen> {
                       )
               )
           );
+        },
+
+        onLongPress: (){
+          var baseDialog = DeleteAnnouncementConfirmation(
+            title: "Delete Announcement:",
+            content: "Are you sure to delete this announcement?",
+            yesOnPressed: () {
+              _deleteAnnouncement(document.id);
+              Toast.show("Announcement Deleted!", context,  duration: Toast.LENGTH_LONG);
+              Navigator.pop(context);
+            },
+            noOnPressed: (){
+              Navigator.of(context).pop();
+            },
+            yes: "Delete",
+            no:"Cancel",
+          );
+          showDialog(context: context, builder: (BuildContext context) => baseDialog);
         },
         color: Design.greyColor,
         padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),

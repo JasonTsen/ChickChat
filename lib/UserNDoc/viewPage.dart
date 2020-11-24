@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pdftron_flutter/pdftron_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class PDFViewPage extends StatefulWidget {
   @override
@@ -9,72 +12,79 @@ class PDFViewPage extends StatefulWidget {
 
 
 class _PDFViewPageState extends State<PDFViewPage> {
-  /*PDFDocument doc;
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+
+    if(Platform.isIOS){
+
+    }else{
+      launchWithPermission();
+    }
+  }
+
+  Future<void> launchWithPermission() async{
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    if(granted(permissions[PermissionGroup.storage])){
+    }
+  }
+
+  Future<void> initPlatformState() async{
+    String version;
+    try{
+      PdftronFlutter.initialize("Insert commercial license key here after purchase");
+      version = await PdftronFlutter.version;
+    }on PlatformException{
+      version = 'Failed to get platform version.';
+    }
+    if(!mounted)return;
+  }
+
+  showViewer(file){
+    PdftronFlutter.openDocument(file);
+
+  }
+
+  bool granted(PermissionStatus status){
+    return status == PermissionStatus.granted;
+  }
+
   @override
   Widget build(BuildContext context) {
-
     String data = ModalRoute.of(context).settings.arguments;
-    ViewNow() async{
-      doc = await PDFDocument.fromURL(data);
-      setState(() {
-
-      });
-    }
 
     Widget Loading(){
-      ViewNow();
-      if(doc==null){
+      if(data==null){
         return CircularProgressIndicator();
       }
     }
-
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-        title: Text('Retrieve Pdf'),
-      ),
-      body: doc==null?Loading():PDFViewer(document: doc),
-    );
-  }*/
-  String _version = "Unknown";
-  String licenseKey;
-
-
-  @override
-  void initState(){
-    super.initState();
-    initPlatformState();
-    PdftronFlutter.openDocument("https://firebasestorage.googleapis.com/v0/b/mychickchat-d2c4d.appspot.com/o/Document%20A?alt=media&token=f0db4a4d-6765-486e-afce-ecbf9e4ef0d7");
-  }
-
-  Future<void> initPlatformState() async {
-    String version;
-
-    try {
-      PdftronFlutter.initialize(licenseKey);
-      version = await PdftronFlutter.version;
-    } on PlatformException {
-      version = 'Failed to get platform version.';
-    }
-    if (!mounted) return;
-    setState(() {
-      _version = version;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    String data = ModalRoute.of(context).settings.arguments;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('PDFTron flutter app'),
+          title: Text('View Document'),
         ),
-        body: Center(
-          child: Text('Running on: $_version\n'),
-        ),
+        body: AlertDialog(
+          title: Text('Open document?'),
+          actions: <Widget>[
+            MaterialButton(
+              child: Text('CANCEL'),
+              onPressed: (){
+                Navigator.of(context).pop('CANCEL');
+              },
+            ),
+            MaterialButton(
+              child: Text('OPEN'),
+              onPressed: (){
+                Navigator.of(context).pop('OPEN');
+                data==null?Loading():showViewer(data);
+              },
+            ),
+          ],
+        )
       ),
     );
+
   }
 }
 

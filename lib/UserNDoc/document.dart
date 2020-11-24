@@ -43,47 +43,25 @@ class _DocumentPageState extends State<DocumentPage> with SingleTickerProviderSt
 
     return Scaffold(
       resizeToAvoidBottomPadding: false,
+      appBar: AppBar(
+        title: Text(
+          'Documents'
+        ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                CupertinoIcons.search,
+                size: 30,
+              ),
+              onPressed: (){
+
+              }),
+        ],
+      ),
       body: Column(
         children: <Widget>[
-          Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 30,right: 5,top: 30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      'Documents',
-                      style: TextStyle(
-                        fontSize: 25.0,
-                        letterSpacing: 1.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: IconButton(
-                          onPressed: (){
-
-                          },
-                          iconSize: 30.0,
-                          icon: Icon(
-                            Icons.search,
-                            color: Colors.grey,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
               Container(
-                height: 440.0,
+                height: 450.0,
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance.collection('Documents').snapshots(),
                   builder: (context, snapshot){
@@ -101,8 +79,6 @@ class _DocumentPageState extends State<DocumentPage> with SingleTickerProviderSt
                   },
                 ),
               ),
-            ],
-          )
         ],
       ),
 
@@ -124,6 +100,11 @@ class _DocumentPageState extends State<DocumentPage> with SingleTickerProviderSt
   }
 
   Widget buildItem(BuildContext context, DocumentSnapshot document){
+
+    bool granted(PermissionStatus status){
+      return status == PermissionStatus.granted;
+    }
+
     if(document.data()['name'] == null){
       return CircularProgressIndicator();
     }
@@ -314,8 +295,8 @@ class _DocumentPageState extends State<DocumentPage> with SingleTickerProviderSt
                                                         title: Text('Download'),
                                                         onTap: ()async{
                                                           Navigator.pop(context);
-                                                          final status = Permission.storage.request();
-                                                          if(status.isGranted != null){
+                                                          Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+                                                          if(granted(permissions[PermissionGroup.storage])){
                                                             pr.show();
                                                             pr.update(message: 'Downloading');
                                                             final externalDir = await getExternalStorageDirectory();

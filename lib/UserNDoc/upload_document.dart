@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:chickchat/UserNDoc/document.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -144,8 +143,7 @@ class _UploadDocumentState extends State<UploadDocument> {
                 });
                 prod.hide();
 
-
-                await Navigator.push(context,MaterialPageRoute(builder: (context)=>DocumentPage()));
+                await Navigator.pop(context);
               },
               color: Colors.grey,
               child: Text(

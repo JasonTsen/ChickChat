@@ -2,7 +2,6 @@ import 'package:chickchat/Controller/constants.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/add_task.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/Task/collaborator.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/project_details.dart';
-import 'package:chickchat/models/Task.dart';
 import 'package:flutter/material.dart';
 
 class DetailsBuilder extends StatelessWidget {
@@ -56,10 +55,9 @@ class DetailsBuilder extends StatelessWidget {
                 builder: (context) =>
                     AddTask(id: this.id),
               )),
-
         ),
         IconButton(
-          icon: Icon(Icons.info_outline, color: Colors.white, size: 28),
+          icon: Icon(Icons.info_outline, color: Colors.white, size: 30),
           onPressed: () {
             var baseDialog = BaseAlertDialog(
               title: "Project Description:",
