@@ -1,10 +1,12 @@
 import 'package:chickchat/Controller/constants.dart';
 import 'package:chickchat/Pattern/design.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/app_bar.dart';
+import 'package:chickchat/ProjectNAnnouncement/Project/delete_project_confirmation.dart';
 import 'package:chickchat/ProjectNAnnouncement/Project/project_details_builder.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class ProjectList extends StatefulWidget{
   ProjectList({Key key}) : super (key: key);
@@ -76,6 +78,10 @@ class ProjectListState extends State<ProjectList> {
   }
 }
 
+Future <void> _deleteProject (String id) async {
+  FirebaseFirestore.instance.collection('Projects').doc(id).delete();
+}
+
 Widget itemCard(BuildContext context, DocumentSnapshot document) {
   return GestureDetector(
     onTap: () {
@@ -94,6 +100,23 @@ Widget itemCard(BuildContext context, DocumentSnapshot document) {
           ),
       );
     },
+    onLongPress: (){
+      var baseDialog = DeleteProjectConfirmation(
+        title: "Delete Project:",
+        content: "Are you sure to delete this project?",
+        yesOnPressed: () {
+          _deleteProject(document.id);
+          Toast.show("Project Deleted!", context,  duration: Toast.LENGTH_LONG);
+          Navigator.pop(context);
+        },
+        noOnPressed: (){
+          Navigator.of(context).pop();
+        },
+        yes: "Delete",
+        no:"Cancel",
+      );
+      showDialog(context: context, builder: (BuildContext context) => baseDialog);
+    },
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -106,7 +129,7 @@ Widget itemCard(BuildContext context, DocumentSnapshot document) {
             ),
             child: Hero(
               tag: "${document.id}",
-              child: Image.asset('assets/images/icon_1.png'),
+              child: Image.asset(document.data()['image']),
             ),
           ),
         ),
