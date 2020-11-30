@@ -30,7 +30,7 @@ class EventDetailsPage extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-              Icon(IconData(61577, fontFamily: 'MaterialIcons'),size: 50,),
+              Icon(Icons.article_rounded,size: 50),
               SizedBox(width: MediaQuery.of(context).size.width * 0.1),
               //Text("Event Tittle",style: TextStyle(fontSize: 22.0,),),
               Flexible(child: Text(event.title,style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.ellipsis,maxLines: 3,)), //Theme.of(context).textTheme.display1
@@ -42,7 +42,7 @@ class EventDetailsPage extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                Icon(IconData(59047, fontFamily: 'MaterialIcons'),size: 50,),
+                Icon(Icons.description,size: 50),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                 Flexible(child: Text(event.description, style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.ellipsis,maxLines: 6,)),
               ],
@@ -52,7 +52,7 @@ class EventDetailsPage extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-              Icon(IconData(58022, fontFamily: 'MaterialIcons'),size: 50,),
+              Icon(Icons.location_on_rounded,size: 50),
               SizedBox(width: MediaQuery.of(context).size.width * 0.1),
               Flexible(child: Text(event.location, style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.ellipsis,maxLines: 3,)),
             ],
@@ -61,7 +61,7 @@ class EventDetailsPage extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                Icon(IconData(58715, fontFamily: 'MaterialIcons'),size: 50,),
+                Icon(Icons.access_time,size: 50),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                 Flexible(child: Text(event.eventTimeStart + ' - ' + event.eventTimeEnd, style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.ellipsis,maxLines: 2,)),
               ],),
@@ -69,7 +69,7 @@ class EventDetailsPage extends StatelessWidget {
             Row(mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                Icon(IconData(59971, fontFamily: 'MaterialIcons'),size: 50,),
+                Icon(Icons.supervised_user_circle,size: 50),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                 Flexible(child: Text(event.creator, style: TextStyle(fontSize: 22.0,),overflow: TextOverflow.ellipsis,maxLines: 3,)),
               ],
