@@ -346,8 +346,8 @@ class _RegisterState extends State<RegisterPage> {
     );
   }
   String validateName(String value) {
-    String patttern = r'[a-zA-Z]+|\s';
-    RegExp regExp = new RegExp(patttern);
+    String pattern = r'[a-zA-Z]+|\s';
+    RegExp regExp = new RegExp(pattern);
     if(!regExp.hasMatch(value)){
       return 'Enter only letters';
     }
@@ -357,13 +357,13 @@ class _RegisterState extends State<RegisterPage> {
 
   }
   String validateMobile(String value) {
-    String patttern = r'(^(?:[+0]9)?[0-9]{10,11}$)';
-    RegExp regExp = new RegExp(patttern);
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,11}$)';
+    RegExp regExp = new RegExp(pattern);
     if (value.length == 0) {
       return 'Please enter mobile number(Eg. 0128767766)';
     }
     else if (!regExp.hasMatch(value)) {
-      return 'Please enter valid mobile number(Eg. 0128767766)';
+      return 'Please enter valid mobile number (Eg. 0128767766)';
     }
     else {
       return null;
