@@ -32,9 +32,7 @@ class _LoginPageState extends State<LoginPage>{
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
       }
-      return "Field cannot leave empty";
-    }catch(e){
-      return "Field cannot leave empty";
+      return e.message;
     }
   }
   Future<void> _alertDialog(String error) async{
