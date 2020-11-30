@@ -42,7 +42,7 @@ class OnlineApplicationHistoryState extends State<OnlineApplicationHistoryView> 
             Row(mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 SizedBox(width: MediaQuery.of(context).size.width * 0.05),
-                Icon(IconData(59052, fontFamily: 'MaterialIcons'),size: 50,),
+                Icon(Icons.details,size: 50),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.1),
                 Flexible(child: Text(widget.reason,style: TextStyle(fontSize: 14,),overflow: TextOverflow.ellipsis,maxLines: 6,),),
               ],
