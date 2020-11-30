@@ -363,7 +363,7 @@ class _RegisterState extends State<RegisterPage> {
       return 'Please enter mobile number';
     }
     else if (!regExp.hasMatch(value)) {
-      return 'Please enter valid mobile number';
+      return 'Please enter valid mobile number (Eg. 0128767766)';
     }
     else {
       return null;
