@@ -303,6 +303,7 @@ class ChatScreenState extends State<ChatScreen> {
                       document.data()['content'],
                       style: TextStyle(color: Design.primaryColor),
                     ),
+
                     padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
                     width: 200.0,
                     decoration: BoxDecoration(
