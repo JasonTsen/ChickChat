@@ -360,10 +360,10 @@ class _RegisterState extends State<RegisterPage> {
     String patttern = r'(^(?:[+0]9)?[0-9]{10,11}$)';
     RegExp regExp = new RegExp(patttern);
     if (value.length == 0) {
-      return 'Please enter mobile number';
+      return 'Please enter mobile number(Eg. 0128767766)';
     }
     else if (!regExp.hasMatch(value)) {
-      return 'Please enter valid mobile number (Eg. 0128767766)';
+      return 'Please enter valid mobile number(Eg. 0128767766)';
     }
     else {
       return null;
@@ -383,7 +383,7 @@ class _RegisterState extends State<RegisterPage> {
     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
-      return 'Enter Valid Email';
+      return 'Enter Valid Email Address (Eg. hello@gmail.com)';
     else
       return null;
   }

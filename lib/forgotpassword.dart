@@ -137,7 +137,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
-      return 'Enter Valid Email';
+      return 'Enter Valid Email Address (Eg. hello@gmail.com)';
     else
       return null;
   }

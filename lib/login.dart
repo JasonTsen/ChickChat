@@ -67,6 +67,7 @@ class _LoginPageState extends State<LoginPage>{
       setState(() {
         _loginLoad = false;
       });
+
     }else{
       Toast.show("You have login as " + auth.currentUser.displayName + ".", context, duration: Toast.LENGTH_LONG);
       FirebaseFirestore.instance.collection('Users')
@@ -172,4 +173,5 @@ class _LoginPageState extends State<LoginPage>{
         ),
       );
   }
+
 }
