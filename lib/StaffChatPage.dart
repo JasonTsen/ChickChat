@@ -188,9 +188,3 @@ class StaffChatState extends State<StaffChat> {
 
 }
 
-class Choice {
-  const Choice({this.title, this.icon});
-
-  final String title;
-  final IconData icon;
-}

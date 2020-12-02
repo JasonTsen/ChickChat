@@ -61,17 +61,29 @@ class _RegisterState extends State<RegisterPage> {
     FirebaseFirestore.instance.collection('Users').doc(auth.currentUser.uid)
         .set({'uid': uid, 'name': userName, 'email': email, 'pass': password, 'phone': phoneNo, 'role': role, 'userImg': userImg, 'chattingWith' : chattingWith});
   }
+  _submitReg() async{
+    setState(() {
+      _registerLoad = true;
+    });
+    String _validateAccount = await _createUser();
+    if(_validateAccount != null){
+      _alertDialog(_validateAccount);
+      setState(() {
+        _registerLoad = false;
+      });
+    }else{
+      Toast.show("You have registered and login as " + _name +".", context,  duration: Toast.LENGTH_LONG);
+      Navigator.pop(context);
+    }
+  }
   Future<String> _createUser() async{
     try{
       await FirebaseAuth
           .instance
           .createUserWithEmailAndPassword(email: _email, password: _password);
-
       User updateUser = FirebaseAuth.instance.currentUser;
       updateUser.updateProfile(displayName: _name);
-
       uploadFile();
-
       return null;
     } on FirebaseAuthException catch(e) {
       if(e.code == 'weak-password'){
@@ -101,21 +113,7 @@ class _RegisterState extends State<RegisterPage> {
       print('Form is invalid');
     }
   }
-  _submitReg() async{
-    setState(() {
-      _registerLoad = true;
-    });
-    String _validateAccount = await _createUser();
-    if(_validateAccount != null){
-      _alertDialog(_validateAccount);
-      setState(() {
-        _registerLoad = false;
-      });
-    }else{
-      Toast.show("You have registered and login as " + _name +".", context,  duration: Toast.LENGTH_LONG);
-      Navigator.pop(context);
-    }
-  }
+
   Future<void> _alertDialog(String error) async{
     return showDialog(
       context:  context,

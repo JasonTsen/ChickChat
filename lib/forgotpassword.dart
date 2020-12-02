@@ -15,6 +15,21 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   String _email;
   bool _submitLoad = false;
 
+  _submitForgot() async{
+    setState(() {
+      _submitLoad = true;
+    });
+    String _validateAccount = await resetPassword();
+    if(_validateAccount != null){
+      _alertDialog(_validateAccount);
+      setState(() {
+        _submitLoad = false;
+      });
+    }else{
+      Toast.show("The reset link is sent to your email!", context, duration: Toast.LENGTH_LONG);
+      Navigator.pop(context);
+    }
+  }
   Future<String> resetPassword() async {
     try{
       await auth.sendPasswordResetEmail(email: _email);
@@ -27,7 +42,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     }catch(e){
       return "Invalid email!";
     }
-
   }
 
   Future<void> _alertDialog(String error) async{
@@ -52,21 +66,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         }
     );
   }
-  _submitForgot() async{
-    setState(() {
-      _submitLoad = true;
-    });
-    String _validateAccount = await resetPassword();
-    if(_validateAccount != null){
-      _alertDialog(_validateAccount);
-      setState(() {
-        _submitLoad = false;
-      });
-    }else{
-      Toast.show("The reset link is sent to your email!", context, duration: Toast.LENGTH_LONG);
-      Navigator.pop(context);
-    }
-  }
+
   final GlobalKey<FormState> _formKey = GlobalKey();
   void validateAndSave() async{
     final FormState form = _formKey.currentState;

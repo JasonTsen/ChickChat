@@ -19,6 +19,24 @@ class _LoginPageState extends State<LoginPage>{
   String _password;
   FocusNode _passwordFocus;
 
+  void _submitLog() async{
+    setState(() {
+      _loginLoad = true;
+    });
+    String _validateAccount = await _login();
+    if(_validateAccount != null){
+      _alertDialog(_validateAccount);
+      setState(() {
+        _loginLoad = false;
+      });
+
+    }else{
+      Toast.show("You have login as " + auth.currentUser.displayName + ".", context, duration: Toast.LENGTH_LONG);
+      FirebaseFirestore.instance.collection('Users')
+          .doc(auth.currentUser.uid)
+          .update({'pass': _password});
+    }
+  }
   Future<String> _login() async{
     try{
       await FirebaseAuth
@@ -35,6 +53,7 @@ class _LoginPageState extends State<LoginPage>{
       return e.message;
     }
   }
+
   Future<void> _alertDialog(String error) async{
     return showDialog(
         context:  context,
@@ -57,24 +76,7 @@ class _LoginPageState extends State<LoginPage>{
         }
     );
   }
-   void _submitLog() async{
-    setState(() {
-      _loginLoad = true;
-    });
-    String _validateAccount = await _login();
-    if(_validateAccount != null){
-      _alertDialog(_validateAccount);
-      setState(() {
-        _loginLoad = false;
-      });
 
-    }else{
-      Toast.show("You have login as " + auth.currentUser.displayName + ".", context, duration: Toast.LENGTH_LONG);
-      FirebaseFirestore.instance.collection('Users')
-          .doc(auth.currentUser.uid)
-          .update({'pass': _password});
-    }
-  }
 
   @override
   void initState(){

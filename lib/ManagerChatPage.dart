@@ -59,9 +59,7 @@ class ManagerChatState extends State<ManagerChat> {
         ),
 
       ),
-
       body: Container(
-
         child: Stack(
           children: <Widget>[
             // List
@@ -168,7 +166,6 @@ class ManagerChatState extends State<ManagerChat> {
 
             ],
           ),
-
           onPressed: () {
             Navigator.push(
                 context,
@@ -179,27 +176,17 @@ class ManagerChatState extends State<ManagerChat> {
                           peerName: document.data()['name'],
                           peerAvatar: document.data()['userImg'],
                         )));
-
           },
-
           color: Colors.amber,
           padding: EdgeInsets.fromLTRB(25.0, 10.0, 25.0, 10.0),
           shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
-
         margin: EdgeInsets.only(bottom: 10.0, left: 5.0, right: 5.0),
-
       );
 
     }
 
   }
 
-}
-class Choice {
-  const Choice({this.title, this.icon});
-
-  final String title;
-  final IconData icon;
 }
