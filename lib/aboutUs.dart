@@ -232,8 +232,8 @@ class _ReportBugs extends State<ReportBugs> {
   }
 
   sendBugsReports() async {
-    String username = 'khootw-sm17@student.tarc.edu.my';
-    String password = 'k980203125441';
+    String username = '(Your Email))';
+    String password = '(Your Password))';
         // ignore: deprecated_member_use
         final smtpServer = gmail(username, password);
         // Create our message.
